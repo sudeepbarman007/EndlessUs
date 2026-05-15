@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EndlessUs</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Open+Sans&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+<!-- 🔄 LOADER (FIXED POSITION) -->
+<div id="loader"></div>
+
+<!-- ☰ MENU BUTTON -->
+<!-- <div id="menuBtn">☰</div> -->
+
+<!-- 📌 TOP NAV -->
+<div id="topNav">
+  <a href="index.html">🏠 Home</a>
+  <a href="index.html#journey">🛤️ Our Journey</a>
+  <a href="yearbook.html">📘 Faces of Us</a>
+  <a href="mediavault.html">📸 Rewind</a>
+  <a href="wall.html">🧱 The Wall</a>
+</div>
+
+<!-- 🎬 LANDING PAGE -->
+<div class="landing">
+
+  <!-- 🎵 MUSIC -->
+  <audio id="bgMusic">
+    <source src="music/bg.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- 🎵 BUTTON -->
+  <button id="musicToggle">🔊</button>
+
+  <!-- 🎬 CONTENT -->
+  <div class="content">
+    <p class="intro-text fade delay1">Batch 2023 – 2026</p>
+
+    <h1 class="title fade delay2">EndlessUs</h1>
+
+    <p class="subtitle fade delay3">
+      Three Years of Memories, Laughter & Growth
+    </p>
+
+    <p class="quote fade delay4">
+      We don’t realize the moment until it becomes a memory...
+    </p>
+
+    <p class="final-text fade delay5">
+      Let’s begin this journey ❤️
+    </p>
+
+    <button id="startBtn" class="fade delay6">Start Journey</button>
+  </div>
+
+  <!-- 👇 SCROLL INDICATOR -->
+  <div class="scroll-down"></div>
+</div>
+
+<!-- 📖 JOURNEY SECTION -->
+<section id="journey">
+
+  <h2 class="section-title">Our Journey</h2>
+
+  <!-- 2023 -->
+  <div class="story-block">
+    <div class="story-img">
+     <img src="images/year1.jpg" alt="First year memories">
+    </div>
+    <div class="story-text">
+      <h3>2023 – The Beginning</h3>
+      <p>New faces, new dreams, first hostel life.</p>
+      <span>"We came as strangers..."</span>
+    </div>
+  </div>
+
+  <!-- 2024 -->
+  <div class="story-block reverse">
+    <div class="story-img">
+      <img src="images/year2.jpg">
+    </div>
+    <div class="story-text">
+      <h3>2024 – Chaos & Fun</h3>
+      <p>Friendships, fun, confusion 😄</p>
+      <span>"Some of the best memories were unplanned."</span>
+    </div>
+  </div>
+
+  <!-- 2025 -->
+  <div class="story-block">
+    <div class="story-img">
+      <img src="images/year3.jpg">
+    </div>
+    <div class="story-text">
+      <h3>2025 – Growth</h3>
+      <p>Projects, stress, real learning.</p>
+      <span>"Pressure made us stronger."</span>
+    </div>
+  </div>
+
+  <!-- 2026 -->
+  <div class="story-block reverse">
+    <div class="story-img">
+      <img src="images/year4.jpg">
+    </div>
+    <div class="story-text">
+      <h3>2026 – The Final Chapter</h3>
+      <p>Placement, goodbye, emotions.</p>
+      <span>"We became family."</span>
+    </div>
+  </div>
+
+</section> <!-- ✅ JOURNEY CLOSED PROPERLY -->
+
+<!-- ✅ ADD YEARBOOK HERE -->
+<!-- <section id="yearbook" class="yearbook-section">
+
+  <h2 class="section-title">Meet The Class</h2>
+
+  <div class="students-container">
+
+    <div class="student-card" onclick="openProfile(0)">
+      <img src="images/student1.jpg">
+      <h3>Sudeep Barman</h3>
+      <p>"Turning ideas into reality"</p>
+    </div>
+
+    <div class="student-card" onclick="openProfile(1)">
+      <img src="images/student2.jpg">
+      <h3>Rahul Talukdar</h3>
+      <p>"Stay hungry, stay foolish"</p>
+    </div>
+
+    👉 Add more students (up to 10)
+
+  </div>
+
+</section> -->
+
+<!-- 🔚 ENDING SECTION (NOW CORRECT PLACE) -->
+<section class="ending">
+  <div class="ending-content">
+    
+    <h2 class="ending-text">
+      This isn’t the end, it’s just the beginning.
+    </h2>
+
+    <a href="yearbook.html" class="meet-btn">
+      MEET THE CLASS →
+    </a>
+
+    <div class="footer-line">
+      <span>— 🌐 —</span>
+    </div>
+
+    <p class="copyright">
+      © 2026 Batch . All memories preserved forever.
+    </p>
+
+  </div>
+
+</section>
+
+<!-- 🖼️ LIGHTBOX (IMAGE POPUP) -->
+<div id="lightbox">
+  <img id="lightbox-img" src="">
+</div>
+
+<!-- 👤 PROFILE POPUP (Yearbook) -->
+<div id="profilePopup" class="profile-popup">
+  <div class="popup-content">
+
+    <span class="close-btn" onclick="closeProfile()">×</span>
+
+    <img id="popup-img" src="" alt="">
+    <h2 id="popup-name"></h2>
+    <h4 id="popup-dept"></h4>
+    <p id="popup-nickname" class="popup-nickname"></p>
+    <p id="popup-hometown" class="popup-hometown"></p>
+    <p id="popup-quote"></p>
+
+    <div class="socials">
+      <a id="popup-facebook" class="social-link" href="#" target="_blank" rel="noopener">Facebook</a>
+      <a id="popup-insta" class="social-link" href="#" target="_blank" rel="noopener">Instagram</a>
+      <a id="popup-linkedin" class="social-link" href="#" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- 📜 SCRIPT -->
+<script src="script.js" defer></script>
+
+<script>
+  (function(){
+    const nav = document.getElementById('topNav');
+    if (!nav) return;
+    const links = nav.querySelectorAll('a');
+    const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    links.forEach(a => {
+      try {
+        const linkPath = (new URL(a.getAttribute('href'), location.href).pathname.split('/').pop() || 'index.html').toLowerCase();
+        a.classList.toggle('nav-active', linkPath === current);
+      } catch (e) {
+        // ignore invalid URLs
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

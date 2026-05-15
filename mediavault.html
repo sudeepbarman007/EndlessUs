@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rewind | EndlessUs</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* ===== MEDIA VAULT STYLES ===== */
+
+    :root {
+      --cyan: #00CFFF;
+      --cyan-dim: rgba(0,207,255,0.15);
+      --gold: #FFB347;
+      --bg: #0B0F1A;
+      --card-bg: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.07);
+    }
+
+    /* PAGE HERO */
+    .vault-hero {
+      position: relative;
+      padding: 120px 20px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .vault-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,207,255,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .vault-hero-label {
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      opacity: 0.7;
+      margin-bottom: 14px;
+    }
+
+    .vault-hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(40px, 7vw, 80px);
+      font-weight: 700;
+      color: white;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .vault-hero h1 span {
+      color: var(--cyan);
+      text-shadow: 0 0 30px rgba(0,207,255,0.5);
+    }
+
+    .vault-hero p {
+      color: rgba(255,255,255,0.5);
+      font-size: 16px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    /* STATS ROW */
+    .vault-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 40px auto 0;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Poppins', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      position: sticky;
+      top: 60px;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 20px;
+      background: rgba(11,15,26,0.85);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: rgba(255,255,255,0.6);
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .filter-btn .count {
+      font-size: 10px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      padding: 1px 7px;
+      color: rgba(255,255,255,0.4);
+      transition: all 0.25s;
+    }
+
+    .filter-btn:hover {
+      border-color: rgba(0,207,255,0.3);
+      color: rgba(255,255,255,0.85);
+      background: rgba(0,207,255,0.06);
+    }
+
+    .filter-btn.active {
+      background: rgba(0,207,255,0.12);
+      border-color: rgba(0,207,255,0.45);
+      color: var(--cyan);
+      box-shadow: 0 0 18px rgba(0,207,255,0.12);
+    }
+
+    .filter-btn.active .count {
+      background: rgba(0,207,255,0.2);
+      color: var(--cyan);
+    }
+
+    /* GALLERY WRAPPER */
+    .vault-main {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 50px 20px 100px;
+    }
+
+    /* YEAR GROUP LABEL */
+    .year-group {
+      margin-bottom: 60px;
+    }
+
+    .year-label {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .year-label-text {
+      font-family: 'Poppins', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .year-label-text span {
+      color: var(--cyan);
+    }
+
+    .year-label-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(0,207,255,0.25), transparent);
+    }
+
+    .year-label-tag {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.3);
+      font-style: italic;
+    }
+
+    /* MASONRY GRID */
+    .gallery-grid {
+      columns: 4 240px;
+      column-gap: 14px;
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 14px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      /* reveal animation */
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery-item.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,207,255,0.2);
+      z-index: 2;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      border-radius: 12px 12px 0 0;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.04);
+    }
+
+    /* Placeholder (gradient) for demo when no real image */
+    .gallery-item .img-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gallery-item .img-placeholder {
+      width: 100%;
+      display: block;
+      background: linear-gradient(135deg, #1a2236, #0d1520);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gallery-item .img-placeholder svg {
+      opacity: 0.18;
+    }
+
+    /* CAPTION */
+    .gallery-caption {
+      padding: 10px 14px 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .caption-title {
+      font-size: 13px;
+      color: rgba(255,255,255,0.8);
+      font-weight: 600;
+    }
+
+    .caption-meta {
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* HOVER OVERLAY */
+    .gallery-item .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 12px;
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+    }
+
+    .gallery-item:hover .overlay {
+      opacity: 1;
+    }
+
+    .overlay-icon {
+      width: 34px;
+      height: 34px;
+      background: rgba(0,207,255,0.15);
+      border: 1px solid rgba(0,207,255,0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan);
+      margin-left: auto;
+    }
+
+    /* LIGHTBOX */
+    #vaultLightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    #vaultLightbox.open {
+      display: flex;
+    }
+
+    .lb-img-wrap {
+      position: relative;
+      max-width: 90vw;
+      max-height: 80vh;
+    }
+
+    #lbImg {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 12px;
+      object-fit: contain;
+      box-shadow: 0 0 60px rgba(0,0,0,0.8);
+      animation: lbZoom 0.3s ease;
+    }
+
+    @keyframes lbZoom {
+      from { transform: scale(0.9); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .lb-caption {
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    .lb-caption h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      color: white;
+    }
+
+    .lb-caption p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+    }
+
+    .lb-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 50%;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+
+    .lb-close:hover { background: rgba(255,255,255,0.14); }
+
+    .lb-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      background: rgba(0,207,255,0.08);
+      border: 1px solid rgba(0,207,255,0.25);
+      border-radius: 50%;
+      color: var(--cyan);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+
+    .lb-nav:hover { background: rgba(0,207,255,0.18); }
+    .lb-prev { left: -60px; }
+    .lb-next { right: -60px; }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      display: none;
+    }
+
+    .empty-state.visible { display: block; }
+
+    .empty-state svg { opacity: 0.2; margin-bottom: 20px; }
+
+    .empty-state p {
+      color: rgba(255,255,255,0.3);
+      font-size: 15px;
+    }
+
+    /* FILTER TRANSITION */
+    .gallery-item.hiding {
+      opacity: 0;
+      transform: scale(0.95);
+      pointer-events: none;
+    }
+
+    /* UPLOAD HINT BANNER */
+    .upload-hint {
+      margin: 0 auto 10px;
+      max-width: 700px;
+      background: rgba(0,207,255,0.05);
+      border: 1px dashed rgba(0,207,255,0.2);
+      border-radius: 10px;
+      padding: 14px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .upload-hint strong { color: rgba(0,207,255,0.6); }
+
+    @media (max-width: 768px) {
+      .gallery-grid { columns: 2 140px; }
+      .lb-prev { left: 8px; }
+      .lb-next { right: 8px; }
+      .vault-stats { gap: 24px; }
+      .filter-btn { padding: 7px 14px; font-size: 12px; }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-grid { columns: 2 120px; column-gap: 8px; }
+      .gallery-item { margin-bottom: 8px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- 📌 TOP NAV -->
+<div id="topNav">
+  <a href="index.html">🏠 Home</a>
+  <a href="index.html#journey">🛤️ Our Journey</a>
+  <a href="yearbook.html">📘 Faces of Us</a>
+  <a href="mediavault.html" class="nav-active">📸 Rewind</a>
+  <a href="wall.html">🧱 The Wall</a>
+</div>
+
+<!-- 🎬 HERO -->
+<div class="vault-hero">
+  <p class="vault-hero-label">Batch 2023 – 2026</p>
+  <button id="musicToggle" aria-label="Toggle background music" style="position:absolute; right:20px; top:20px; padding:8px 10px; border-radius:8px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); color:var(--cyan);">🔇</button>
+  <h1>Re<span>wind</span></h1>
+  <p>Every moment captured, every memory preserved forever.</p>
+
+  <div class="vault-stats">
+    <div class="stat-item">
+      <div class="stat-number">1000+</div>
+      <div class="stat-label">Laughs</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">300+</div>
+      <div class="stat-label">Classes Survived 😄</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">Countless</div>
+      <div class="stat-label">Moments Captured</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">1095</div>
+      <div class="stat-label">Days Together</div>
+    </div>
+  </div>
+</div>
+
+<!-- 🎛️ FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">
+    🎞️ All Memories <span class="count" id="cnt-all">0</span>
+  </button>
+  <button class="filter-btn" data-filter="2nd">
+    📘 2nd Year <span class="count" id="cnt-2nd">0</span>
+  </button>
+  <button class="filter-btn" data-filter="3rd">
+    📗 3rd Year <span class="count" id="cnt-3rd">0</span>
+  </button>
+  <button class="filter-btn" data-filter="4th">
+    📕 4th Year <span class="count" id="cnt-4th">0</span>
+  </button>
+</div>
+
+<!-- 📸 MAIN GALLERY -->
+<div class="vault-main">
+
+  
+
+  <!-- EMPTY STATE -->
+  <div class="empty-state" id="emptyState">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+      <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+    </svg>
+    <p>No memories here yet. Add photos to get started!</p>
+  </div>
+
+  <!-- GALLERY RENDERS HERE -->
+  <div id="galleryContainer"></div>
+
+</div>
+
+<!-- 🖼️ LIGHTBOX -->
+<div id="vaultLightbox">
+  <button class="lb-close" id="lbClose">×</button>
+  <div class="lb-img-wrap">
+    <button class="lb-nav lb-prev" id="lbPrev">‹</button>
+    <img id="lbImg" src="" alt="">
+    <button class="lb-nav lb-next" id="lbNext">›</button>
+  </div>
+  <div class="lb-caption">
+    <h3 id="lbTitle"></h3>
+    <p id="lbMeta"></p>
+  </div>
+</div>
+
+<script>
+  /* ============================================================
+     📁 MEDIA ITEMS — Add your photos here!
+     
+     Each item:
+     {
+      src:     "images/mediavault/yourphoto.jpg",   ← image path
+       title:   "Trip to Guwahati",             ← caption
+       year:    "2nd",                           ← "2nd" | "3rd" | "4th"
+       date:    "March 2024",                    ← optional date text
+       tall:    false                            ← true = portrait photo
+     }
+  ============================================================ */
+  const mediaItems = [
+    // ── 2nd YEAR ──
+    { src: "images/mediavault/fasthostelbase.jpg",  title: "First Hostel Bash",      year: "2nd", date: "Oct 2023" },
+    { src: "images/mediavault/labdays.jpg",  title: "Lab Days",               year: "2nd", date: "Jan 2024",  tall: true },
+    { src: "images/mediavault/freshersnight.jpg",  title: "Freshers Night",         year: "2nd", date: "Nov 2023" },
+    { src: "images/mediavault/weekendoutgoing.jpg",  title: "Weekend Outing",         year: "2nd", date: "Feb 2024",  tall: true },
+    { src: "images/mediavault/canteengang.jpg",  title: "Canteen Gang",           year: "2nd", date: "Mar 2024" },
+    { src: "images/mediavault/studynight.jpg",  title: "Study Nights",           year: "2nd", date: "Apr 2024" },
+
+    // ── 3rd YEAR ──
+    { src: "images/mediavault/saraswatipuja.jpg",  title: "Annual Fest 2024",       year: "3rd", date: "Sep 2024",  tall: true },
+    { src: "images/mediavault/projectsubmissionday.jpg",  title: "Project Submission Day", year: "3rd", date: "Nov 2024" },
+    { src: "images/mediavault/rooftop.jpg",  title: "Rooftop Moments",        year: "3rd", date: "Dec 2024",  tall: true },
+    { src: "images/mediavault/sportsday.jpg",  title: "Sports Day",             year: "3rd", date: "Jan 2025" },
+    { src: "images/mediavault/chaosandlaughter.jpg",  title: "Chaos & Laughter",       year: "3rd", date: "Feb 2025" },
+    { src: "images/mediavault/librarysquad.jpg",  title: "Library Squad",          year: "3rd", date: "Mar 2025",  tall: true },
+
+    // ── 4th YEAR ──
+    { src: "images/mediavault/finalyearbegins.jpg",  title: "Final Year Begins",      year: "4th", date: "Aug 2025",  tall: true },
+    { src: "images/mediavault/placementseason.jpg",  title: "Placement Season",       year: "4th", date: "Oct 2025" },
+    { src: "images/mediavault/lunch.jpeg",  title: "Last Farewell Lunch",    year: "4th", date: "Mar 2026",  tall: true },
+    { src: "images/mediavault/convocationday.jpg",  title: "Convocation Day",        year: "4th", date: "Apr 2026" },
+    { src: "images/mediavault/goodbye.jpg",  title: "Goodbye, Home",          year: "4th", date: "Apr 2026" },
+    { src: "images/mediavault/endless.jpg",  title: "EndlessUs Forever",      year: "4th", date: "May 2026",  tall: true },
+  ];
+
+  /* ── Year labels ── */
+  const yearMeta = {
+    "2nd": { label: "2nd Year", emoji: "📘", tag: "2023 – 2024 · The Beginning" },
+    "3rd": { label: "3rd Year", emoji: "📗", tag: "2024 – 2025 · Chaos & Fun" },
+    "4th": { label: "4th Year", emoji: "📕", tag: "2025 – 2026 · The Final Chapter" },
+  };
+
+  /* ── State ── */
+  let activeFilter = "all";
+  let currentLbIndex = 0;
+  let visibleItems = [];
+
+  /* ── Placeholder image (SVG gradient) used when real image fails ── */
+  const PLACEHOLDER = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%231a2236'/><stop offset='1' stop-color='%230d1520'/></linearGradient></defs><rect width='100%25' height='100%25' fill='url(%23g)'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2300CFFF' opacity='.18' font-size='18' font-family='sans-serif'>No Image</text></svg>";
+
+  /* ── Build gallery ── */
+  function buildGallery(filter) {
+    const container = document.getElementById("galleryContainer");
+    const empty = document.getElementById("emptyState");
+    container.innerHTML = "";
+
+    const yearsToShow = filter === "all" ? ["2nd","3rd","4th"] : [filter];
+    visibleItems = [];
+
+    yearsToShow.forEach(yr => {
+      const items = mediaItems.filter(m => m.year === yr);
+      if (!items.length) return;
+
+      const meta = yearMeta[yr];
+
+      // Year group wrapper
+      const group = document.createElement("div");
+      group.className = "year-group";
+
+      // Label
+      const labelHtml = `
+        <div class="year-label">
+          <div class="year-label-text">${meta.emoji} <span>${meta.label}</span></div>
+          <div class="year-label-line"></div>
+          <div class="year-label-tag">${meta.tag}</div>
+        </div>`;
+
+      // Grid
+      const grid = document.createElement("div");
+      grid.className = "gallery-grid";
+
+      items.forEach(item => {
+        const globalIndex = visibleItems.length;
+        visibleItems.push(item);
+
+        const card = document.createElement("div");
+        card.className = "gallery-item";
+        card.dataset.index = globalIndex;
+
+        const imgHeight = item.tall ? 260 : 180;
+
+        card.innerHTML = `
+          <div class="img-wrap" style="height:${imgHeight}px; overflow:hidden;">
+            <img src="${item.src}"
+                 alt="${item.title}"
+                 style="height:${imgHeight}px; object-fit:cover;"
+                 onerror="this.src='${PLACEHOLDER}'">
+            <div class="overlay">
+              <div class="overlay-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="gallery-caption">
+            <div class="caption-title">${item.title}</div>
+            <div class="caption-meta">${item.date || ""} · ${item.year} Year</div>
+          </div>`;
+
+        card.addEventListener("click", () => openLightbox(globalIndex));
+        grid.appendChild(card);
+      });
+
+      group.innerHTML = labelHtml;
+      group.appendChild(grid);
+      container.appendChild(group);
+    });
+
+    // Empty state
+    if (!visibleItems.length) {
+      empty.classList.add("visible");
+    } else {
+      empty.classList.remove("visible");
+    }
+
+    // Reveal animation
+    setTimeout(() => {
+      document.querySelectorAll(".gallery-item").forEach((el, i) => {
+        setTimeout(() => el.classList.add("in-view"), i * 40);
+      });
+    }, 50);
+
+    updateCounts();
+  }
+
+  /* ── Counts ── */
+  function updateCounts() {
+    const total = mediaItems.length;
+    document.getElementById("totalCount").textContent = total;
+    document.getElementById("yearCount").textContent =
+      activeFilter === "all" ? total : mediaItems.filter(m => m.year === activeFilter).length;
+
+    document.getElementById("cnt-all").textContent = total;
+    ["2nd","3rd","4th"].forEach(yr => {
+      const el = document.getElementById(`cnt-${yr}`);
+      if (el) el.textContent = mediaItems.filter(m => m.year === yr).length;
+    });
+  }
+
+  /* ── Filter buttons ── */
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeFilter = btn.dataset.filter;
+      buildGallery(activeFilter);
+    });
+  });
+
+  /* ── Lightbox ── */
+  function openLightbox(index) {
+    currentLbIndex = index;
+    renderLightbox();
+    document.getElementById("vaultLightbox").classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function renderLightbox() {
+    const item = visibleItems[currentLbIndex];
+    if (!item) return;
+    const img = document.getElementById("lbImg");
+    img.src = item.src;
+    img.onerror = () => { img.src = PLACEHOLDER; };
+    document.getElementById("lbTitle").textContent = item.title;
+    document.getElementById("lbMeta").textContent = `${item.date || ""} · ${item.year} Year`;
+  }
+
+  function closeLightbox() {
+    document.getElementById("vaultLightbox").classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("lbClose").addEventListener("click", closeLightbox);
+  document.getElementById("vaultLightbox").addEventListener("click", (e) => {
+    if (e.target === document.getElementById("vaultLightbox")) closeLightbox();
+  });
+
+  document.getElementById("lbPrev").addEventListener("click", (e) => {
+    e.stopPropagation();
+    currentLbIndex = (currentLbIndex - 1 + visibleItems.length) % visibleItems.length;
+    renderLightbox();
+  });
+
+  document.getElementById("lbNext").addEventListener("click", (e) => {
+    e.stopPropagation();
+    currentLbIndex = (currentLbIndex + 1) % visibleItems.length;
+    renderLightbox();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (!document.getElementById("vaultLightbox").classList.contains("open")) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowLeft") { currentLbIndex = (currentLbIndex - 1 + visibleItems.length) % visibleItems.length; renderLightbox(); }
+    if (e.key === "ArrowRight") { currentLbIndex = (currentLbIndex + 1) % visibleItems.length; renderLightbox(); }
+  });
+
+  /* ── Init ── */
+  buildGallery("all");
+
+  /* ── Nav active style ── */
+  const style = document.createElement("style");
+  style.textContent = `#topNav a.nav-active { color: #00CFFF !important; }`;
+  document.head.appendChild(style);
+</script>
+
+<script>
+  (function(){
+    const nav = document.getElementById('topNav');
+    if (!nav) return;
+    const links = nav.querySelectorAll('a');
+    const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    links.forEach(a => {
+      try {
+        const linkPath = (new URL(a.getAttribute('href'), location.href).pathname.split('/').pop() || 'index.html').toLowerCase();
+        a.classList.toggle('nav-active', linkPath === current);
+      } catch (e) {}
+    });
+  })();
+</script>
+
+</body>
+</html>

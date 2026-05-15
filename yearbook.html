@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yearbook | EndlessUs</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- 🔙 BACK BUTTON -->
+<!-- <a href="index.html" class="back-btn">← Back to Home</a> -->
+
+<!-- 📌 TOP NAV (copied from index.html) -->
+<div id="topNav">
+  <a href="index.html">🏠 Home</a>
+  <a href="index.html#journey">🛤️ Our Journey</a>
+  <a href="yearbook.html">📘 Faces of Us</a>
+  <a href="mediavault.html">📸 Rewind</a>
+  <a href="wall.html">🧱 The Wall</a>
+</div>
+
+<!-- 🎓 YEARBOOK SECTION -->
+<section id="yearbook" class="yearbook-section">
+
+  <h2 class="section-title">Meet The Class</h2>
+
+  <!-- Department Navigation -->
+  <nav id="deptNav" class="dept-nav" aria-label="Departments">
+    <button class="dept-btn" data-target="#dept-ECE">⚡ ECE</button>
+    <button class="dept-btn" data-target="#dept-CSE">💻 CSE</button>
+    <button class="dept-btn" data-target="#dept-FET">🍴 FET</button>
+    <button class="dept-btn" data-target="#dept-CV">🏗 CV</button>
+    <button class="dept-btn" data-target="#dept-Other">🏷 Other</button>
+  </nav>
+
+  <!-- Departments container (we'll group the existing cards into these) -->
+  <div class="departments-container">
+
+    <!-- ECE Department -->
+    <div id="dept-ECE" class="department reveal">
+      <div class="dept-header">
+        <div class="dept-title">ECE Department</div>
+        <div class="dept-tagline">Builders of circuits and connections</div>
+        <div class="dept-emotion">These were the circuits we built… and the friendships that lasted.</div>
+        <div class="dept-divider"></div>
+      </div>
+
+      <div class="students-container">
+
+<div class="student-card" onclick="openProfile(0)">
+  <img src="images/sudeep.jpg">
+  <h3>Sudeep Barman</h3>
+  <h4>ECE Department</h4>
+  <p>"Turning ideas into reality"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(1)">
+  <img src="images/yearbook/koushik.jpeg">
+  <h3>Koushik Das</h3>
+  <h4>ECE Department</h4>
+  <p>"Consistency beats talent"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(2)">
+  <img src="images/yearbook/rohtitt.jpeg">
+  <h3>Rohit Sarkar</h3>
+  <h4>ECE Department</h4>
+  <p>"Work hard in silence"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(3)">
+  <img src="images/yearbook/ankit.jpeg">
+  <h3>Ankit Gupta</h3>
+  <h4>ECE Department</h4>
+  <p>"Dream big, act bigger"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(4)">
+  <img src="images/yearbook/moon.jpeg">
+  <h3>Moon Basumatary</h3>
+  <h4>ECE Department</h4>
+  <p>"Keep moving forward"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(5)">
+  <img src="images/yearbook/triparna.jpeg">
+  <h3>Triparna Bora</h3>
+  <h4>ECE Department</h4>
+  <p>"Believe in yourself"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(6)">
+  <img src="images/yearbook/ankita.jpeg">
+  <h3>Ankita Doley</h3>
+  <h4>ECE Department</h4>
+  <p>"Make it happen"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(7)">
+  <img src="images/yearbook/barnil.jpeg">
+  <h3>Barnil Das</h3>
+  <h4>ECE Department</h4>
+  <p>"Keep moving forward"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(8)">
+  <img src="images/yearbook/prithibiraj.jpeg">
+  <h3>Prithibiraj Brahma</h3>
+  <h4>ECE Department</h4>
+  <p>"Dream big"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(9)">
+  <img src="images/yearbook/lakhyajit.jpeg">
+  <h3>Lakhyajit Boro</h3>
+  <h4>ECE Department</h4>
+  <p>"Stay focused"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(10)">
+  <img src="images/yearbook/partha.jpeg">
+  <h3>Partha Parashar</h3>
+  <h4>ECE Department</h4>
+  <p>"Create your own path"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(11)">
+  <img src="images/yearbook/aminur.jpeg">
+  <h3>Aminur Rehman</h3>
+  <h4>ECE Department</h4>
+  <p>"Work hard in silence"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(12)">
+  <img src="images/yearbook/tanmoy.jpeg">
+  <h3>Tanmoy Day</h3>
+  <h4>ECE Department</h4>
+  <p>"Enjoy every moment"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(13)">
+  <img src="images/yearbook/kuladip.jpeg ">
+  <h3>Kuladip Rajbongshi</h3>
+  <h4>ECE Department</h4>
+  <p>"Stay humble"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(14)">
+  <img src="images/yearbook/younchi.jpeg">
+  <h3>Youanchi Kwan</h3>
+  <h4>ECE Department</h4>
+  <p>"Be limitless"</p>
+</div>
+
+      </div>
+    </div>
+
+      
+
+    <!-- CSE Department -->
+    <div id="dept-CSE" class="department reveal">
+      <div class="dept-header">
+        <div class="dept-title">CSE Department</div>
+        <div class="dept-tagline">From logic to limitless possibilities</div>
+        <div class="dept-emotion">From debugging code to debugging life…</div>
+        <div class="dept-divider"></div>
+      </div>
+
+      <div class="students-container">
+
+<div class="student-card" onclick="openProfile(15)">
+  <img src="images//yearbook/nikita.jpeg">
+  <h3>Nikita Sharma</h3>
+  <h4>CSE Department</h4>
+  <p>"Confidence is key"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(16)">
+  <img src="images/yearbook/bibek.jpg">
+  <h3>Bibek Roy</h3>
+  <h4>CSE Department</h4>
+  <p>"Code. Learn. Repeat."</p>
+</div>
+
+<div class="student-card" onclick="openProfile(17)">
+  <img src="images/yearbook/saif.jpeg">
+  <h3>Saifuddin Choudhury</h3>
+  <h4>CSE Department</h4>
+  <p>"Stay curious"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(18)">
+  <img src="images/yearbook/pradyot.jpeg">
+  <h3>Pradyot Paul</h3>
+  <h4>CSE Department</h4>
+  <p>"Debugging life daily"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(19)">
+  <img src="images/yearbook/krishnik.jpeg">
+  <h3>Krishnik Barman</h3>
+  <h4>CSE Department</h4>
+  <p>"Think different"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(20)">
+  <img src="images/yearbook/rahul.jpeg">
+  <h3>Rahul Talukdar</h3>
+  <h4>CSE Department</h4>
+  <p>"Stay hungry, stay foolish"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(21)">
+  <img src="images/yearbook/bishal.jpeg">
+  <h3>Bishal Karmakar</h3>
+  <h4>CSE Department</h4>
+  <p>"Push beyond limits"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(22)">
+  <img src="images/yearbook/rishi.jpeg ">
+  <h3>Rishi Raj Bharali</h3>
+  <h4>CSE Department</h4>
+  <p>"Create your own path"</p>
+</div>
+
+
+<div class="student-card" onclick="openProfile(23)">
+  <img src="images/yearbook/afrina.jpeg">
+  <h3>Afrina Ahmed</h3>
+  <h4>CSE Department</h4>
+  <p>"Shine brighter every day"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(24)">
+  <img src="images/yearbook/daiji.jpeg">
+  <h3>Daiji Kalita</h3>
+  <h4>CSE Department</h4>
+  <p>"Never stop learning"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(25)">
+  <img src="images/yearbook/rahulsonboro.jpg">
+  <h3>Rahul Son Boro</h3>
+  <h4>CSE Department</h4>
+  <p>"Code your future"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(26)">
+  <img src="images/yearbook/subham.jpeg">
+  <h3>Subham Saha</h3>
+  <h4>CSE Department</h4>
+  <p>"Never stop learning"</p>
+</div>
+
+      </div>
+    </div>
+<!-- FET Department (new empty section, placeholder allowed) -->
+      <div id="dept-FET" class="department reveal">
+        <div class="dept-header">
+          <div class="dept-title">FET Department</div>
+          <div class="dept-tagline">From ingredients to innovation</div>
+          <div class="dept-emotion">Where science met flavor and creativity.</div>
+          <div class="dept-divider"></div>
+        </div>
+
+        <div class="students-container">
+          
+        <!-- Placeholder: Add cards here when available. Kept intentionally empty to preserve existing content. -->
+        <div class="student-card" onclick="openProfile(27)">
+  <img src="images/yearbook/jayanta.jpeg">
+  <h3>Jayanta Saha</h3>
+  <h4>FET Department</h4>
+  <p>"Turning ideas into reality"</p>
+</div>
+      </div>
+      </div>
+
+      <!-- CV Department (new empty section, placeholder allowed) -->
+      <div id="dept-CV" class="department reveal">
+        <div class="dept-header">
+          <div class="dept-title">Civil Department</div>
+          <div class="dept-tagline">Building the world around us</div>
+          <div class="dept-emotion">We didn’t just build structures, we built foundations of life.</div>
+          <div class="dept-divider"></div>
+        </div>
+
+        <div class="students-container">
+          <!-- Placeholder: Add cards here when available. Kept intentionally empty to preserve existing content. -->
+        <div class="student-card" onclick="openProfile(28)">
+  <img src="images/viban.jpg">
+  <h3>Viban Van Narzary</h3>
+  <h4>CV Department</h4>
+  <p>"Building the future, brick by brick"</p>
+</div>
+        </div>
+      </div>
+
+    <!-- Other / fallback -->
+    <div id="dept-Other" class="department reveal">
+      <div class="dept-header">
+        <div class="dept-title">Other Departments</div>
+        <div class="dept-tagline">All other chapters and collaborators</div>
+        <div class="dept-emotion">Every corner had a story worth keeping.</div>
+        <div class="dept-divider"></div>
+      </div>
+
+      <div class="students-container">
+        <!-- If there are any other student-cards not categorized, place them here. -->
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- 🔹 HELP REDIRECT: small CTA to open Media Vault -->
+<section class="yearbook-ending">
+  <div class="ending-content">
+    <h2>The Story Doesn't End Here...</h2>
+    
+    <p>
+      These faces, these names — they are just a glimpse.  
+      The real memories live beyond pages.
+    </p>
+
+    <p class="highlight">
+      Dive into moments we captured together.
+    </p>
+
+    <a href="mediavault.html" class="vault-btn">
+      Enter Rewind →
+    </a>
+  </div>
+</section>
+
+
+<!-- 👤 POPUP -->
+<div id="profilePopup" class="profile-popup">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closeProfile()">×</span>
+
+    <img id="popup-img" src="" alt="Profile image">
+    <h2 id="popup-name"></h2>
+    <h4 id="popup-dept"></h4>
+    <p id="popup-nickname" class="popup-nickname"></p>
+    <p id="popup-hometown" class="popup-hometown" aria-hidden="false"></p>
+    <p id="popup-quote"></p>
+
+    <div class="socials">
+      <a id="popup-facebook" class="social-link" href="#" target="_blank" rel="noopener" aria-label="Facebook">
+        <!-- simple Facebook SVG -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 12.07C22 6.49 17.52 2 11.94 2S2 6.49 2 12.07C2 17.1 5.66 21.19 10.44 21.95v-6.96H7.9v-2.92h2.54V9.84c0-2.5 1.49-3.87 3.78-3.87 1.1 0 2.25.2 2.25.2v2.48h-1.27c-1.25 0-1.64.78-1.64 1.58v1.9h2.8l-.45 2.92h-2.35V21.95C18.34 21.19 22 17.1 22 12.07z"/></svg>
+      </a>
+
+      <a id="popup-insta" class="social-link" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+        <!-- simple Instagram SVG -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.2A4.8 4.8 0 1 0 16.8 13 4.8 4.8 0 0 0 12 8.2zm6.4-3.6a1.2 1.2 0 1 0 1.2 1.2 1.2 1.2 0 0 0-1.2-1.2z"/></svg>
+      </a>
+
+      <a id="popup-linkedin" class="social-link" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <!-- simple LinkedIn SVG -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.5 17.5V10H6v7.5h2.5zM7.25 8.75a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zM18.5 17.5V13c0-2.1-1.1-3-2.5-3-1.15 0-1.65.63-1.95 1.07V10H11v7.5h2.5v-3.8c0-.98.18-1.92 1.4-1.92 1.2 0 1.2 1.17 1.2 1.98v3.74H18.5z"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
+<script>
+  (function(){
+    const nav = document.getElementById('topNav');
+    if (!nav) return;
+    const links = nav.querySelectorAll('a');
+    const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    links.forEach(a => {
+      try {
+        const linkPath = (new URL(a.getAttribute('href'), location.href).pathname.split('/').pop() || 'index.html').toLowerCase();
+        a.classList.toggle('nav-active', linkPath === current);
+      } catch (e) {}
+    });
+  })();
+</script>
+
+</body>
+</html>

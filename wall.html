@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Wall | EndlessUs</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Caveat:wght@400;600&family=Open+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* ===== THE WALL — PAGE STYLES ===== */
+    :root {
+      --cyan: #00CFFF;
+      --gold: #FFB347;
+      --bg: #0B0F1A;
+      --card-bg: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+    }
+
+    /* ── HERO ── */
+    .wall-hero {
+      padding: 110px 20px 50px;
+      text-align: center;
+      position: relative;
+    }
+
+    .wall-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,207,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .wall-label {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(255,179,71,0.25);
+      padding: 5px 16px;
+      border-radius: 999px;
+      margin-bottom: 22px;
+      background: rgba(255,179,71,0.06);
+    }
+
+    .wall-hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(38px, 6vw, 72px);
+      font-weight: 700;
+      color: white;
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    .wall-hero h1 span { color: var(--cyan); }
+
+    .wall-hero p {
+      color: rgba(255,255,255,0.45);
+      font-size: 15px;
+      max-width: 420px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── WRITE A NOTE FORM ── */
+    .write-section {
+      max-width: 680px;
+      margin: 50px auto 0;
+      padding: 0 20px;
+    }
+
+    .write-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 36px;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .write-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      opacity: 0.4;
+    }
+
+    .write-card h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .write-card .write-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 22px;
+    }
+
+    .write-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .write-fields input,
+    .write-fields textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 12px;
+      color: white;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      padding: 13px 16px;
+      resize: none;
+      outline: none;
+      transition: border-color 0.25s;
+    }
+
+    .write-fields input::placeholder,
+    .write-fields textarea::placeholder { color: rgba(255,255,255,0.25); }
+
+    .write-fields input:focus,
+    .write-fields textarea:focus {
+      border-color: rgba(0,207,255,0.4);
+      background: rgba(0,207,255,0.03);
+    }
+
+    .write-fields textarea { min-height: 110px; }
+
+    .write-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .char-count {
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+    }
+
+    .post-btn {
+      padding: 11px 28px;
+      border: none;
+      background: linear-gradient(135deg, #00CFFF, #0077ff);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 18px rgba(0,207,255,0.2);
+    }
+
+    .post-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 28px rgba(0,207,255,0.35);
+    }
+
+    .post-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ── WALL STATS ── */
+    .wall-stats {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      margin: 50px auto 10px;
+      flex-wrap: wrap;
+    }
+
+    .wall-stat { text-align: center; }
+
+    .wall-stat-num {
+      font-family: 'Poppins', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+
+    .wall-stat-lbl {
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.35);
+      margin-top: 3px;
+    }
+
+    /* ── DIVIDER ── */
+    .wall-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: 900px;
+      margin: 40px auto 0;
+      padding: 0 20px;
+    }
+
+    .wall-divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,207,255,0.15), transparent);
+    }
+
+    .wall-divider-text {
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 2px;
+      white-space: nowrap;
+    }
+
+    /* ── MASONRY GRID ── */
+    .wall-grid-wrap {
+      max-width: 1200px;
+      margin: 32px auto 80px;
+      padding: 0 20px;
+    }
+
+    /* Note styles moved to style.css for PJAX consistency */
+
+    /* ── LOADING / EMPTY STATE ── */
+    .wall-loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: rgba(255,255,255,0.25);
+      font-size: 14px;
+    }
+
+    .wall-loading .spinner {
+      width: 30px;
+      height: 30px;
+      border: 2px solid rgba(0,207,255,0.15);
+      border-top-color: var(--cyan);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 14px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .wall-empty {
+      text-align: center;
+      padding: 80px 20px;
+      color: rgba(255,255,255,0.2);
+    }
+
+    .wall-empty p { margin-top: 12px; font-size: 14px; }
+
+    /* ── TOAST ── */
+    #wallToast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(0,207,255,0.12);
+      border: 1px solid rgba(0,207,255,0.3);
+      color: var(--cyan);
+      padding: 12px 26px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 9999;
+      backdrop-filter: blur(10px);
+    }
+
+    #wallToast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── FOOTER QUOTE ── */
+    .wall-footer-quote {
+      text-align: center;
+      padding: 60px 20px 100px;
+      border-top: 1px solid var(--border);
+    }
+
+    .wall-footer-quote blockquote {
+      font-family: 'Caveat', cursive;
+      font-size: 26px;
+      color: rgba(255,255,255,0.4);
+      max-width: 550px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    .wall-footer-quote .wq-sig {
+      margin-top: 16px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 2px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .wall-grid { columns: 2 150px; column-gap: 12px; }
+      .write-card { padding: 24px 20px; }
+      .wall-stats { gap: 28px; }
+    }
+
+    @media (max-width: 480px) {
+      .wall-grid { columns: 1; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- 📌 TOP NAV -->
+<div id="topNav">
+  <a href="index.html">🏠 Home</a>
+  <a href="index.html#journey">🛤️ Our Journey</a>
+  <a href="yearbook.html">📘 Faces of Us</a>
+  <a href="mediavault.html">📸 Rewind</a>
+  <a href="wall.html">🧱 The Wall</a>
+</div>
+
+<!-- 🧱 HERO -->
+<div class="wall-hero">
+  <div class="wall-label">✦ FINAL GOODBYES</div>
+  <h1>The <span>Wall</span></h1>
+  <p>Leave your words, memories, and wishes here.<br>These notes will remain forever — a testament to our journey.</p>
+</div>
+
+<!-- ✍️ WRITE A NOTE -->
+<div class="write-section">
+  <div class="write-card">
+    <h2>Leave a Note 📝</h2>
+    <p class="write-sub">Write something from the heart. Anonymous is okay.</p>
+
+    <div class="write-fields">
+      <input type="text" id="wallName" placeholder="Your name (or leave blank for Anonymous)" maxlength="40">
+      <textarea id="wallMsg" placeholder="Write your message, memory, or wish..." maxlength="300"></textarea>
+    </div>
+
+    <div class="write-bottom">
+      <span class="char-count"><span id="charLeft">300</span> characters left</span>
+      <button class="post-btn" id="wallPostBtn">Post to The Wall →</button>
+    </div>
+  </div>
+</div>
+
+<!-- 📊 STATS -->
+<div class="wall-stats">
+  <div class="wall-stat">
+    <div class="wall-stat-num" id="totalNotes">—</div>
+    <div class="wall-stat-lbl">Notes Left</div>
+  </div>
+  <div class="wall-stat">
+    <div class="wall-stat-num">2026</div>
+    <div class="wall-stat-lbl">Batch Year</div>
+  </div>
+  <div class="wall-stat">
+    <div class="wall-stat-num">∞</div>
+    <div class="wall-stat-lbl">Memories Kept</div>
+  </div>
+</div>
+
+<!-- DIVIDER -->
+<div class="wall-divider">
+  <div class="wall-divider-line"></div>
+  <div class="wall-divider-text">NOTES FROM THE BATCH</div>
+  <div class="wall-divider-line"></div>
+</div>
+
+<!-- 🧱 GRID -->
+<div class="wall-grid-wrap">
+  <div id="wallLoading" class="wall-loading">
+    <div class="spinner"></div>
+    Loading notes from the wall...
+  </div>
+  <div class="wall-grid" id="wallGrid" style="display:none;"></div>
+  <div class="wall-empty" id="wallEmpty" style="display:none;">
+    <p>No notes yet. Be the first to leave one! 💌</p>
+  </div>
+</div>
+
+<!-- FOOTER QUOTE -->
+<div class="wall-footer-quote">
+  <blockquote>"These walls have heard our laughter, seen our tears, and held our secrets..."</blockquote>
+  <div class="wq-sig">— BATCH 2023–2026 —</div>
+</div>
+
+<!-- TOAST -->
+<div id="wallToast">Note posted! 🎉</div>
+
+<!-- 🧠 SCRIPT -->
+<script src="script.js"></script>
+
+<script>
+  /* ============================================================
+     THE WALL — AI-Powered persistent note board
+     Uses Anthropic API + Claude artifact storage for persistence
+  ============================================================ */
+
+  const ACCENTS = ['accent-cyan', 'accent-gold', 'accent-pink', 'accent-green'];
+
+  // ── Storage keys ──
+  const STORAGE_KEY = 'wall_notes_v1';
+  const CLIENT_KEY = 'wall_client_v1';
+
+  function getClientId() {
+    try {
+      let id = localStorage.getItem(CLIENT_KEY);
+      if (!id) {
+        id = Date.now() + '-' + Math.random().toString(36).slice(2,9);
+        localStorage.setItem(CLIENT_KEY, id);
+      }
+      return id;
+    } catch (e) {
+      return 'unknown';
+    }
+  }
+  const CLIENT_ID = getClientId();
+
+  // ── State ──
+  let notes = [];
+  let REMOTE_AVAILABLE = false;
+
+  // ── DOM refs ──
+  const grid      = document.getElementById('wallGrid');
+  const loading   = document.getElementById('wallLoading');
+  const empty     = document.getElementById('wallEmpty');
+  const nameInput = document.getElementById('wallName');
+  const msgInput  = document.getElementById('wallMsg');
+  const postBtn   = document.getElementById('wallPostBtn');
+  const charLeft  = document.getElementById('charLeft');
+  const totalEl   = document.getElementById('totalNotes');
+  const toast     = document.getElementById('wallToast');
+
+  // ── Char counter ──
+  msgInput.addEventListener('input', () => {
+    const rem = 300 - msgInput.value.length;
+    charLeft.textContent = rem;
+    charLeft.style.color = rem < 30 ? '#ff6b6b' : 'rgba(255,255,255,0.25)';
+  });
+
+  // ── Toast helper ──
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // ── Format date ──
+  function fmtDate(ts) {
+    const d = new Date(ts);
+    return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  // ── Render all notes ──
+  function renderNotes(data) {
+    grid.innerHTML = '';
+    if (!data || data.length === 0) {
+      loading.style.display = 'none';
+      grid.style.display = 'none';
+      empty.style.display = 'block';
+      totalEl.textContent = '0';
+      return;
+    }
+
+    // newest first
+    const sorted = [...data].reverse();
+    sorted.forEach((note, i) => {
+      const card = document.createElement('div');
+      card.className = 'note-card ' + ACCENTS[i % ACCENTS.length];
+      card.style.animationDelay = (i * 60) + 'ms';
+
+      const deleteBtn = (note.owner && note.owner === CLIENT_ID)
+        ? `<button class="note-delete" data-id="${note.id}" aria-label="Delete note">✖</button>`
+        : '';
+
+      card.innerHTML = `
+        ${deleteBtn}
+        <p class="note-msg">${escHtml(note.msg)}</p>
+        <div class="note-footer">
+          <span class="note-author">${escHtml(note.name || 'Anonymous')}</span>
+          <span class="note-date">${fmtDate(note.ts)}</span>
+        </div>`;
+
+      grid.appendChild(card);
+    });
+
+    loading.style.display = 'none';
+    empty.style.display = 'none';
+    grid.style.display = 'block';
+    totalEl.textContent = data.length;
+  }
+
+  // check for remote API availability
+  async function checkRemote() {
+    try {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), 2000);
+      const res = await fetch('/api/notes', { signal: controller.signal });
+      clearTimeout(id);
+      if (res.ok) {
+        REMOTE_AVAILABLE = true;
+        // open realtime socket
+        try { connectWS(); } catch (e) {}
+        try { migrateLocalToServer(); } catch(e) {}
+        return true;
+      }
+    } catch (e) {}
+    REMOTE_AVAILABLE = false;
+    return false;
+  }
+
+  // ── WebSocket realtime sync ──
+  let ws = null;
+  let wsRetry = 0;
+
+  function scheduleReconnect() {
+    wsRetry = Math.min(10, wsRetry + 1);
+    const delay = Math.min(10000, Math.floor(1000 * Math.pow(1.6, wsRetry)));
+    setTimeout(() => { if (REMOTE_AVAILABLE) connectWS(); }, delay);
+  }
+
+  function connectWS() {
+    if (!REMOTE_AVAILABLE) return;
+    if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) return;
+    const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const url = proto + '//' + location.host + '/ws';
+    try {
+      ws = new WebSocket(url);
+    } catch (e) {
+      scheduleReconnect();
+      return;
+    }
+    ws.addEventListener('open', () => { wsRetry = 0; });
+    ws.addEventListener('message', (ev) => {
+      try {
+        const msg = JSON.parse(ev.data);
+        if (msg && msg.type === 'update' && Array.isArray(msg.notes)) {
+          notes = msg.notes;
+          renderNotes(notes);
+        }
+      } catch (e) {}
+    });
+    ws.addEventListener('close', () => { scheduleReconnect(); });
+    ws.addEventListener('error', () => { try { ws.close(); } catch(e){} });
+  }
+
+  // migrate any local-only notes to the remote server (one-time sync)
+  async function migrateLocalToServer() {
+    if (!REMOTE_AVAILABLE) return;
+    try {
+      const r = await window.storage.get(STORAGE_KEY, true).catch(() => null);
+      const local = r ? JSON.parse(r.value || '[]') : [];
+      if (!local || !local.length) return;
+
+      // fetch current server notes to avoid duplicates
+      const res = await fetch('/api/notes');
+      const serverNotes = res.ok ? (await res.json()) : [];
+      const serverIds = new Set((serverNotes || []).map(n => Number(n.id)));
+
+      for (const note of local) {
+        if (!serverIds.has(Number(note.id))) {
+          // post missing note
+          try {
+            await fetch('/api/notes', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify(note) });
+          } catch (e) { /* ignore individual failures */ }
+        }
+      }
+    } catch (e) {}
+  }
+
+  // delete note (only allowed for owner)
+  function deleteNote(id) {
+    const nid = Number(id);
+    const target = notes.find(n => n.id === nid);
+    if (!target) return showToast('Note not found.');
+    if (!target.owner || target.owner !== CLIENT_ID) return showToast('You can only delete your own notes.');
+    if (!confirm('Delete this note? This cannot be undone.')) return;
+
+    if (REMOTE_AVAILABLE) {
+      // call remote API
+      fetch(`/api/notes/${nid}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ owner: CLIENT_ID }) })
+        .then(r => r.json())
+        .then(data => { notes = data || []; renderNotes(notes); showToast('Note deleted.'); })
+        .catch(() => showToast('Could not delete note.'));
+      return;
+    }
+
+    // local fallback
+    notes = notes.filter(n => n.id !== nid);
+    try {
+      window.storage.set(STORAGE_KEY, JSON.stringify(notes), true).catch(() => {});
+    } catch (e) {}
+    renderNotes(notes);
+    showToast('Note deleted.');
+  }
+
+  // delegated handler for delete buttons
+  grid.addEventListener('click', (e) => {
+    const btn = e.target.closest && e.target.closest('.note-delete');
+    if (!btn) return;
+    const id = btn.dataset.id;
+    if (!id) return;
+    deleteNote(id);
+  });
+
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#39;');
+  }
+
+  // ── Load notes from storage ──
+  async function loadNotes() {
+    loading.style.display = 'block';
+    grid.style.display = 'none';
+    empty.style.display = 'none';
+    // prefer remote API when available
+    if (REMOTE_AVAILABLE) {
+      try {
+        const res = await fetch('/api/notes');
+        if (res.ok) {
+          const data = await res.json();
+          notes = data || [];
+          renderNotes(notes);
+          return;
+        }
+      } catch (e) { /* fallthrough to local */ }
+    }
+
+    try {
+      const result = await window.storage.get(STORAGE_KEY, true); // shared=true
+      const data = result ? JSON.parse(result.value) : [];
+      notes = data;
+      renderNotes(notes);
+    } catch (e) {
+      notes = [];
+      renderNotes([]);
+    }
+  }
+
+  // ── Save & post note ──
+  postBtn.addEventListener('click', async () => {
+    const msg = msgInput.value.trim();
+    if (!msg) {
+      showToast('Please write something first 💌');
+      return;
+    }
+
+    postBtn.disabled = true;
+    postBtn.textContent = 'Posting...';
+
+    const newNote = {
+      id:   Date.now(),
+      name: nameInput.value.trim() || 'Anonymous',
+      msg:  msg,
+      ts:   Date.now(),
+      owner: CLIENT_ID
+    };
+
+    try {
+      if (REMOTE_AVAILABLE) {
+        const res = await fetch('/api/notes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newNote) });
+        if (res.ok) {
+          const data = await res.json();
+          notes = data || [];
+          renderNotes(notes);
+          nameInput.value = '';
+          msgInput.value = '';
+          charLeft.textContent = '300';
+          showToast('Your note is on the wall! 🧱✨');
+        } else {
+          throw new Error('Remote post failed');
+        }
+      } else {
+        // Load latest from storage first (in case others posted)
+        let latest = [];
+        try {
+          const r = await window.storage.get(STORAGE_KEY, true);
+          latest = r ? JSON.parse(r.value) : [];
+        } catch(e) { latest = []; }
+
+        latest.push(newNote);
+
+        // Keep max 200 notes
+        if (latest.length > 200) latest = latest.slice(-200);
+
+        await window.storage.set(STORAGE_KEY, JSON.stringify(latest), true);
+
+        notes = latest;
+        renderNotes(notes);
+
+        nameInput.value = '';
+        msgInput.value = '';
+        charLeft.textContent = '300';
+
+        showToast('Your note is on the wall! 🧱✨');
+      }
+    } catch (e) {
+      showToast('Could not save. Try again!');
+    }
+
+    postBtn.disabled = false;
+    postBtn.textContent = 'Post to The Wall →';
+  });
+
+  // ── Init ──
+  (async function(){
+    await checkRemote();
+    loadNotes();
+  })();
+
+  // ── Nav active ──
+  (function(){
+    const nav = document.getElementById('topNav');
+    if (!nav) return;
+    const links = nav.querySelectorAll('a');
+    const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    links.forEach(a => {
+      try {
+        const lp = (new URL(a.getAttribute('href'), location.href).pathname.split('/').pop() || 'index.html').toLowerCase();
+        a.classList.toggle('nav-active', lp === current);
+      } catch(e) {}
+    });
+  })();
+</script>
+
+</body>
+</html>
