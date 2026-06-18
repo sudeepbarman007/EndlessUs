@@ -27,7 +27,7 @@
   <a href="wall.html">🧱 The Wall</a>
 </div>
 
-<!-- 🎬 LANDING PAGE -->
+<!-- � LANDING PAGE -->
 <div class="landing">
 
   <!-- 🎵 MUSIC -->
@@ -71,7 +71,7 @@
   <!-- 2023 -->
   <div class="story-block">
     <div class="story-img">
-     <img src="images/year1.jpg" alt="First year memories">
+     <img src="images/year1.webp" alt="First year memories">
     </div>
     <div class="story-text">
       <h3>2023 – The Beginning</h3>
@@ -83,7 +83,7 @@
   <!-- 2024 -->
   <div class="story-block reverse">
     <div class="story-img">
-      <img src="images/year2.jpg">
+      <img src="images/year2.webp">
     </div>
     <div class="story-text">
       <h3>2024 – Chaos & Fun</h3>
@@ -95,7 +95,7 @@
   <!-- 2025 -->
   <div class="story-block">
     <div class="story-img">
-      <img src="images/year3.jpg">
+      <img src="images/year3.webp">
     </div>
     <div class="story-text">
       <h3>2025 – Growth</h3>
@@ -107,7 +107,7 @@
   <!-- 2026 -->
   <div class="story-block reverse">
     <div class="story-img">
-      <img src="images/year4.jpg">
+      <img src="images/year4.webp">
     </div>
     <div class="story-text">
       <h3>2026 – The Final Chapter</h3>
@@ -126,13 +126,13 @@
   <div class="students-container">
 
     <div class="student-card" onclick="openProfile(0)">
-      <img src="images/student1.jpg">
+      <img src="images/student1.webp">
       <h3>Sudeep Barman</h3>
       <p>"Turning ideas into reality"</p>
     </div>
 
     <div class="student-card" onclick="openProfile(1)">
-      <img src="images/student2.jpg">
+      <img src="images/student2.webp">
       <h3>Rahul Talukdar</h3>
       <p>"Stay hungry, stay foolish"</p>
     </div>
@@ -186,9 +186,17 @@
     <p id="popup-quote"></p>
 
     <div class="socials">
-      <a id="popup-facebook" class="social-link" href="#" target="_blank" rel="noopener">Facebook</a>
-      <a id="popup-insta" class="social-link" href="#" target="_blank" rel="noopener">Instagram</a>
-      <a id="popup-linkedin" class="social-link" href="#" target="_blank" rel="noopener">LinkedIn</a>
+      <a id="popup-facebook" class="social-logo" href="#" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 12.07C22 6.49 17.52 2 11.94 2S2 6.49 2 12.07C2 17.1 5.66 21.19 10.44 21.95v-6.96H7.9v-2.92h2.54V9.84c0-2.5 1.49-3.87 3.78-3.87 1.1 0 2.25.2 2.25.2v2.48h-1.27c-1.25 0-1.64.78-1.64 1.58v1.9h2.8l-.45 2.92h-2.35V21.95C18.34 21.19 22 17.1 22 12.07z"/></svg>
+      </a>
+
+      <a id="popup-insta" class="social-logo" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.2A4.8 4.8 0 1 0 16.8 13 4.8 4.8 0 0 0 12 8.2zm6.4-3.6a1.2 1.2 0 1 0 1.2 1.2 1.2 1.2 0 0 0-1.2-1.2z"/></svg>
+      </a>
+
+      <a id="popup-linkedin" class="social-logo" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.5 17.5V10H6v7.5h2.5zM7.25 8.75a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zM18.5 17.5V13c0-2.1-1.1-3-2.5-3-1.15 0-1.65.63-1.95 1.07V10H11v7.5h2.5v-3.8c0-.98.18-1.92 1.4-1.92 1.2 0 1.2 1.17 1.2 1.98v3.74H18.5z"/></svg>
+      </a>
     </div>
 
   </div>
@@ -200,17 +208,44 @@
 <script>
   (function(){
     const nav = document.getElementById('topNav');
-    if (!nav) return;
-    const links = nav.querySelectorAll('a');
-    const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    links.forEach(a => {
-      try {
-        const linkPath = (new URL(a.getAttribute('href'), location.href).pathname.split('/').pop() || 'index.html').toLowerCase();
-        a.classList.toggle('nav-active', linkPath === current);
-      } catch (e) {
-        // ignore invalid URLs
+    if (nav) {
+      const links = nav.querySelectorAll('a');
+      const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+      links.forEach(a => {
+        try {
+          const linkPath = (new URL(a.getAttribute('href'), location.href).pathname.split('/').pop() || 'index.html').toLowerCase();
+          a.classList.toggle('nav-active', linkPath === current);
+        } catch (e) {
+          // ignore invalid URLs
+        }
+      });
+    }
+
+    // Lightweight music toggle initializer (works on this page only).
+    // Keeps state in localStorage under 'musicPlaying'. Does not modify other files.
+    try {
+      const music = document.getElementById('bgMusic');
+      const toggle = document.getElementById('musicToggle');
+      if (music && toggle) {
+        function setOn() { toggle.textContent = '🔊'; toggle.setAttribute('aria-pressed','true'); }
+        function setOff(){ toggle.textContent = '🔇'; toggle.setAttribute('aria-pressed','false'); }
+
+        const stored = localStorage.getItem('musicPlaying');
+        if (stored === 'true') {
+          music.play().then(setOn).catch(() => setOff());
+        } else {
+          setOff();
+        }
+
+        toggle.addEventListener('click', () => {
+          if (music.paused) {
+            music.play().then(() => { setOn(); localStorage.setItem('musicPlaying','true'); }).catch(() => { setOff(); localStorage.setItem('musicPlaying','false'); });
+          } else {
+            music.pause(); setOff(); localStorage.setItem('musicPlaying','false');
+          }
+        });
       }
-    });
+    } catch (e) { console.error('Music init error', e); }
   })();
 </script>
 

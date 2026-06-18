@@ -6,6 +6,83 @@
   <title>Yearbook | EndlessUs</title>
 
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Sudeep (creator) - card and popup specific styles (targeted to index 0) */
+    .student-card[onclick="openProfile(0)"] {
+      transition: transform 260ms ease, box-shadow 260ms ease, outline 260ms ease;
+      position: relative;
+      /* subtle gold glow border using outline to avoid layout shift */
+      outline: 0 solid rgba(255,215,0,0);
+      outline-offset: 0px;
+    }
+    .student-card[onclick="openProfile(0)"]:hover {
+      transform: scale(1.035);
+      box-shadow: 0 14px 44px rgba(255,215,0,0.10), 0 0 0 2px rgba(255,215,0,0.06) inset;
+      z-index: 2;
+      outline: 6px solid rgba(255,215,0,0.06);
+      outline-offset: 4px;
+    }
+    .student-card[onclick="openProfile(0)"] h3 {
+      color: #FFD700; /* premium gold for creator name */
+      text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+    }
+    .student-card[onclick="openProfile(0)"] .creator-badge {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: #FFD700;
+      background: rgba(255,215,0,0.06);
+      border: 1px solid rgba(255,215,0,0.12);
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+    /* small ribbon in the corner (kept outside image area) */
+    .student-card[onclick="openProfile(0)"] .creator-ribbon {
+      position: absolute;
+      top: 10px;
+      right: -40px;
+      transform: rotate(45deg);
+      background: linear-gradient(90deg, rgba(255,215,0,0.12), rgba(255,215,0,0.08));
+      color: #FFD700;
+      padding: 5px 40px;
+      font-weight: 700;
+      font-size: 11px;
+      border: 1px solid rgba(255,215,0,0.12);
+      border-radius: 4px;
+      pointer-events: none;
+      box-shadow: 0 6px 18px rgba(255,215,0,0.06);
+    }
+    @media (max-width: 480px) {
+      .student-card[onclick="openProfile(0)"] .creator-ribbon { right: -26px; padding: 4px 28px; top: 8px; font-size: 10px; }
+    }
+    /* popup badge & creator note */
+    .profile-popup .creator-badge {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 14px;
+      color: #FFD700;
+      background: rgba(255,215,0,0.04);
+      border: 1px solid rgba(255,215,0,0.08);
+      padding: 6px 10px;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+    .profile-popup .creator-note {
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.9);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+    .profile-popup .creator-note strong { display:block; margin-bottom:6px; color: #FFD700; }
+    @media (max-width: 480px) {
+      .profile-popup .creator-badge { font-size: 13px; padding: 5px 8px; }
+      .profile-popup .creator-note { font-size: 13px; }
+    }
+  </style>
 </head>
 
 <body>
@@ -51,108 +128,174 @@
       <div class="students-container">
 
 <div class="student-card" onclick="openProfile(0)">
-  <img src="images/sudeep.jpg">
+  
+  <div class="creator-ribbon">⭐ CREATOR</div>
+  <img src="images/yearbook/sudeep02.webp">
   <h3>Sudeep Barman</h3>
+  <div class="creator-badge">⭐ Creator of EndlessUs</div>
   <h4>ECE Department</h4>
-  <p>"Turning ideas into reality"</p>
+  <p>"Coding memories into a digital legacy."</p>
 </div>
 
 <div class="student-card" onclick="openProfile(1)">
-  <img src="images/yearbook/koushik.jpeg">
+  <img src="images/yearbook/koushik.webp">
   <h3>Koushik Das</h3>
   <h4>ECE Department</h4>
   <p>"Consistency beats talent"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(2)">
-  <img src="images/yearbook/rohtitt.jpeg">
+  <img src="images/yearbook/rohtitt.webp">
   <h3>Rohit Sarkar</h3>
   <h4>ECE Department</h4>
   <p>"Work hard in silence"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(3)">
-  <img src="images/yearbook/ankit.jpeg">
+  <img src="images/yearbook/ankit.webp">
   <h3>Ankit Gupta</h3>
   <h4>ECE Department</h4>
   <p>"Dream big, act bigger"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(4)">
-  <img src="images/yearbook/moon.jpeg">
+  <img src="images/yearbook/moon.webp">
   <h3>Moon Basumatary</h3>
   <h4>ECE Department</h4>
   <p>"Keep moving forward"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(5)">
-  <img src="images/yearbook/triparna.jpeg">
+  <img src="images/yearbook/triparna.webp">
   <h3>Triparna Bora</h3>
   <h4>ECE Department</h4>
   <p>"Believe in yourself"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(6)">
-  <img src="images/yearbook/ankita.jpeg">
+  <img src="images/yearbook/Ankita Doley.webp">
   <h3>Ankita Doley</h3>
   <h4>ECE Department</h4>
   <p>"Make it happen"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(7)">
-  <img src="images/yearbook/barnil.jpeg">
+  <img src="images/yearbook/barnil.webp">
   <h3>Barnil Das</h3>
   <h4>ECE Department</h4>
   <p>"Keep moving forward"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(8)">
-  <img src="images/yearbook/prithibiraj.jpeg">
+  <img src="images/yearbook/prithibiraj.webp">
   <h3>Prithibiraj Brahma</h3>
   <h4>ECE Department</h4>
   <p>"Dream big"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(9)">
-  <img src="images/yearbook/lakhyajit.jpeg">
+  <img src="images/yearbook/lakhyajit.webp">
   <h3>Lakhyajit Boro</h3>
   <h4>ECE Department</h4>
   <p>"Stay focused"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(10)">
-  <img src="images/yearbook/partha.jpeg">
+  <img src="images/yearbook/partha.webp">
   <h3>Partha Parashar</h3>
   <h4>ECE Department</h4>
   <p>"Create your own path"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(11)">
-  <img src="images/yearbook/aminur.jpeg">
+  <img src="images/yearbook/aminur.webp">
   <h3>Aminur Rehman</h3>
   <h4>ECE Department</h4>
   <p>"Work hard in silence"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(12)">
-  <img src="images/yearbook/tanmoy.jpeg">
+  <img src="images/yearbook/tanmoy.webp">
   <h3>Tanmoy Day</h3>
   <h4>ECE Department</h4>
   <p>"Enjoy every moment"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(13)">
-  <img src="images/yearbook/kuladip.jpeg ">
+  <img src="images/yearbook/kuladip.webp ">
   <h3>Kuladip Rajbongshi</h3>
   <h4>ECE Department</h4>
   <p>"Stay humble"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(14)">
-  <img src="images/yearbook/younchi.jpeg">
+  <img src="images/yearbook/younchi.webp">
   <h3>Youanchi Kwan</h3>
   <h4>ECE Department</h4>
   <p>"Be limitless"</p>
+</div>
+
+<div class="student-card" onclick="openProfile(29)">
+  <img src="images/yearbook/chris.webp">
+  <h3>Chris Basumatary</h3>
+  <h4>ECE Department</h4>
+  <p>"Turning signals into possibilities."</p>
+</div>
+
+<div class="student-card" onclick="openProfile(30)">
+  <img src="images/yearbook/ANNESHA SINGHA 2.02E+11.webp">
+  <h3>Annesha Singha</h3>
+  <h4>ECE Department</h4>
+  <p>"Where circuits connect, friendships last."</p>
+</div>
+
+<div class="student-card" onclick="openProfile(31)">
+  <img src="images/yearbook/Sumi Basumatary.webp">
+  <h3>Sumi Basumatary</h3>
+  <h4>ECE Department</h4>
+  <p>"Small signals, big dreams."</p>
+</div>
+
+<div class="student-card" onclick="openProfile(32)">
+  <img src="images/yearbook/AKASH NEELIM BARUAH 202202031013.webp">
+  <h3>Akash Neelim Baruah</h3>
+  <h4>ECE Department</h4>
+  <p>"Engineering tomorrow, one circuit at a time."</p>
+</div>
+
+<div class="student-card" onclick="openProfile(33)">
+  <img src="images/yearbook/PRITY KUMARI SAH 2.02E+11.webp">
+  <h3>Prity Kumari Sah</h3>
+  <h4>ECE Department</h4>
+  <p>"Every connection tells a story."</p>
+</div>
+
+<div class="student-card" onclick="openProfile(34)">
+  <img src="images/yearbook/Humen Pegu.webp">
+  <h3>Humen Pegu</h3>
+  <h4>ECE Department</h4>
+  <p>"From classroom theories to real-world innovation."</p>
+</div>
+
+<div class="student-card" onclick="openProfile(35)">
+  <img src="images/yearbook/Arnab Sashi.webp">
+  <h3>Arnab Sashi</h3>
+  <h4>ECE Department</h4>
+  <p>"Built by ECE, powered by determination."</p>
+</div>
+
+<div class="student-card" onclick="openProfile(36)">
+  <img src="images/yearbook/Kongkona Barman.webp">
+  <h3>Kongkana Barman</h3>
+  <h4>ECE Department</h4>
+  <p>"Communication is the bridge between ideas."</p>
+</div>
+
+<div class="student-card" onclick="openProfile(37)">
+  <img src="images/yearbook/BHARISTA DEKA 202202031029.webp">
+  <h3>Bharista Deka</h3>
+  <h4>ECE Department</h4>
+  <p>"Creating connections beyond circuits."</p>
 </div>
 
       </div>
@@ -172,56 +315,56 @@
       <div class="students-container">
 
 <div class="student-card" onclick="openProfile(15)">
-  <img src="images//yearbook/nikita.jpeg">
+  <img src="images//yearbook/nikita.webp">
   <h3>Nikita Sharma</h3>
   <h4>CSE Department</h4>
   <p>"Confidence is key"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(16)">
-  <img src="images/yearbook/bibek.jpg">
+  <img src="images/yearbook/bibek.webp">
   <h3>Bibek Roy</h3>
   <h4>CSE Department</h4>
   <p>"Code. Learn. Repeat."</p>
 </div>
 
 <div class="student-card" onclick="openProfile(17)">
-  <img src="images/yearbook/saif.jpeg">
+  <img src="images/yearbook/saif.webp">
   <h3>Saifuddin Choudhury</h3>
   <h4>CSE Department</h4>
   <p>"Stay curious"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(18)">
-  <img src="images/yearbook/pradyot.jpeg">
+  <img src="images/yearbook/pradyot.webp">
   <h3>Pradyot Paul</h3>
   <h4>CSE Department</h4>
   <p>"Debugging life daily"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(19)">
-  <img src="images/yearbook/krishnik.jpeg">
+  <img src="images/yearbook/krishnik01.webp">
   <h3>Krishnik Barman</h3>
   <h4>CSE Department</h4>
   <p>"Think different"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(20)">
-  <img src="images/yearbook/rahul.jpeg">
+  <img src="images/yearbook/rahul.webp">
   <h3>Rahul Talukdar</h3>
   <h4>CSE Department</h4>
   <p>"Stay hungry, stay foolish"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(21)">
-  <img src="images/yearbook/bishal.jpeg">
+  <img src="images/yearbook/bishal.webp">
   <h3>Bishal Karmakar</h3>
   <h4>CSE Department</h4>
   <p>"Push beyond limits"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(22)">
-  <img src="images/yearbook/rishi.jpeg ">
+  <img src="images/yearbook/rishi.webp ">
   <h3>Rishi Raj Bharali</h3>
   <h4>CSE Department</h4>
   <p>"Create your own path"</p>
@@ -229,28 +372,28 @@
 
 
 <div class="student-card" onclick="openProfile(23)">
-  <img src="images/yearbook/afrina.jpeg">
+  <img src="images/yearbook/afrina01.webp">
   <h3>Afrina Ahmed</h3>
   <h4>CSE Department</h4>
   <p>"Shine brighter every day"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(24)">
-  <img src="images/yearbook/daiji.jpeg">
+  <img src="images/yearbook/daiji.webp">
   <h3>Daiji Kalita</h3>
   <h4>CSE Department</h4>
   <p>"Never stop learning"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(25)">
-  <img src="images/yearbook/rahulsonboro.jpg">
+  <img src="images/yearbook/rahulsonboro.webp">
   <h3>Rahul Son Boro</h3>
   <h4>CSE Department</h4>
   <p>"Code your future"</p>
 </div>
 
 <div class="student-card" onclick="openProfile(26)">
-  <img src="images/yearbook/subham.jpeg">
+  <img src="images/yearbook/subham.webp">
   <h3>Subham Saha</h3>
   <h4>CSE Department</h4>
   <p>"Never stop learning"</p>
@@ -271,7 +414,7 @@
           
         <!-- Placeholder: Add cards here when available. Kept intentionally empty to preserve existing content. -->
         <div class="student-card" onclick="openProfile(27)">
-  <img src="images/yearbook/jayanta.jpeg">
+  <img src="images/yearbook/jayanta.webp">
   <h3>Jayanta Saha</h3>
   <h4>FET Department</h4>
   <p>"Turning ideas into reality"</p>
@@ -291,7 +434,7 @@
         <div class="students-container">
           <!-- Placeholder: Add cards here when available. Kept intentionally empty to preserve existing content. -->
         <div class="student-card" onclick="openProfile(28)">
-  <img src="images/viban.jpg">
+  <img src="images/viban.webp">
   <h3>Viban Van Narzary</h3>
   <h4>CV Department</h4>
   <p>"Building the future, brick by brick"</p>
@@ -351,19 +494,16 @@
     <p id="popup-quote"></p>
 
     <div class="socials">
-      <a id="popup-facebook" class="social-link" href="#" target="_blank" rel="noopener" aria-label="Facebook">
-        <!-- simple Facebook SVG -->
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 12.07C22 6.49 17.52 2 11.94 2S2 6.49 2 12.07C2 17.1 5.66 21.19 10.44 21.95v-6.96H7.9v-2.92h2.54V9.84c0-2.5 1.49-3.87 3.78-3.87 1.1 0 2.25.2 2.25.2v2.48h-1.27c-1.25 0-1.64.78-1.64 1.58v1.9h2.8l-.45 2.92h-2.35V21.95C18.34 21.19 22 17.1 22 12.07z"/></svg>
+      <a id="popup-facebook" class="social-logo" href="#" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 12.07C22 6.49 17.52 2 11.94 2S2 6.49 2 12.07C2 17.1 5.66 21.19 10.44 21.95v-6.96H7.9v-2.92h2.54V9.84c0-2.5 1.49-3.87 3.78-3.87 1.1 0 2.25.2 2.25.2v2.48h-1.27c-1.25 0-1.64.78-1.64 1.58v1.9h2.8l-.45 2.92h-2.35V21.95C18.34 21.19 22 17.1 22 12.07z"/></svg>
       </a>
 
-      <a id="popup-insta" class="social-link" href="#" target="_blank" rel="noopener" aria-label="Instagram">
-        <!-- simple Instagram SVG -->
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.2A4.8 4.8 0 1 0 16.8 13 4.8 4.8 0 0 0 12 8.2zm6.4-3.6a1.2 1.2 0 1 0 1.2 1.2 1.2 1.2 0 0 0-1.2-1.2z"/></svg>
+      <a id="popup-insta" class="social-logo" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.2A4.8 4.8 0 1 0 16.8 13 4.8 4.8 0 0 0 12 8.2zm6.4-3.6a1.2 1.2 0 1 0 1.2 1.2 1.2 1.2 0 0 0-1.2-1.2z"/></svg>
       </a>
 
-      <a id="popup-linkedin" class="social-link" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
-        <!-- simple LinkedIn SVG -->
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.5 17.5V10H6v7.5h2.5zM7.25 8.75a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zM18.5 17.5V13c0-2.1-1.1-3-2.5-3-1.15 0-1.65.63-1.95 1.07V10H11v7.5h2.5v-3.8c0-.98.18-1.92 1.4-1.92 1.2 0 1.2 1.17 1.2 1.98v3.74H18.5z"/></svg>
+      <a id="popup-linkedin" class="social-logo" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.5 17.5V10H6v7.5h2.5zM7.25 8.75a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zM18.5 17.5V13c0-2.1-1.1-3-2.5-3-1.15 0-1.65.63-1.95 1.07V10H11v7.5h2.5v-3.8c0-.98.18-1.92 1.4-1.92 1.2 0 1.2 1.17 1.2 1.98v3.74H18.5z"/></svg>
       </a>
     </div>
   </div>

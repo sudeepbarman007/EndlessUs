@@ -437,7 +437,7 @@
   let notes = [];
   let REMOTE_AVAILABLE = false;
 
-  // ── DOM refs ──
+  // ── DOM refs (may be null during PJAX swaps; guard uses below)
   const grid      = document.getElementById('wallGrid');
   const loading   = document.getElementById('wallLoading');
   const empty     = document.getElementById('wallEmpty');
@@ -449,14 +449,17 @@
   const toast     = document.getElementById('wallToast');
 
   // ── Char counter ──
-  msgInput.addEventListener('input', () => {
-    const rem = 300 - msgInput.value.length;
-    charLeft.textContent = rem;
-    charLeft.style.color = rem < 30 ? '#ff6b6b' : 'rgba(255,255,255,0.25)';
-  });
+  if (msgInput && charLeft) {
+    msgInput.addEventListener('input', () => {
+      const rem = 300 - msgInput.value.length;
+      charLeft.textContent = rem;
+      charLeft.style.color = rem < 30 ? '#ff6b6b' : 'rgba(255,255,255,0.25)';
+    });
+  }
 
   // ── Toast helper ──
   function showToast(msg) {
+    if (!toast) return console.log('Toast:', msg);
     toast.textContent = msg;
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3000);
@@ -470,12 +473,13 @@
 
   // ── Render all notes ──
   function renderNotes(data) {
+    if (!grid) return;
     grid.innerHTML = '';
     if (!data || data.length === 0) {
-      loading.style.display = 'none';
-      grid.style.display = 'none';
-      empty.style.display = 'block';
-      totalEl.textContent = '0';
+      if (loading) loading.style.display = 'none';
+      if (grid) grid.style.display = 'none';
+      if (empty) empty.style.display = 'block';
+      if (totalEl) totalEl.textContent = '0';
       return;
     }
 
@@ -501,10 +505,10 @@
       grid.appendChild(card);
     });
 
-    loading.style.display = 'none';
-    empty.style.display = 'none';
-    grid.style.display = 'block';
-    totalEl.textContent = data.length;
+    if (loading) loading.style.display = 'none';
+    if (empty) empty.style.display = 'none';
+    if (grid) grid.style.display = 'block';
+    if (totalEl) totalEl.textContent = data.length;
   }
 
   // check for remote API availability
@@ -612,13 +616,15 @@
   }
 
   // delegated handler for delete buttons
-  grid.addEventListener('click', (e) => {
-    const btn = e.target.closest && e.target.closest('.note-delete');
-    if (!btn) return;
-    const id = btn.dataset.id;
-    if (!id) return;
-    deleteNote(id);
-  });
+  if (grid) {
+    grid.addEventListener('click', (e) => {
+      const btn = e.target.closest && e.target.closest('.note-delete');
+      if (!btn) return;
+      const id = btn.dataset.id;
+      if (!id) return;
+      deleteNote(id);
+    });
+  }
 
   function escHtml(str) {
     return String(str)
@@ -631,9 +637,9 @@
 
   // ── Load notes from storage ──
   async function loadNotes() {
-    loading.style.display = 'block';
-    grid.style.display = 'none';
-    empty.style.display = 'none';
+    if (loading) loading.style.display = 'block';
+    if (grid) grid.style.display = 'none';
+    if (empty) empty.style.display = 'none';
     // prefer remote API when available
     if (REMOTE_AVAILABLE) {
       try {
@@ -659,7 +665,8 @@
   }
 
   // ── Save & post note ──
-  postBtn.addEventListener('click', async () => {
+  if (postBtn && msgInput) {
+    postBtn.addEventListener('click', async () => {
     const msg = msgInput.value.trim();
     if (!msg) {
       showToast('Please write something first 💌');
@@ -722,6 +729,7 @@
     postBtn.disabled = false;
     postBtn.textContent = 'Post to The Wall →';
   });
+  }
 
   // ── Init ──
   (async function(){

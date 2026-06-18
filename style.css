@@ -12,8 +12,11 @@ body {
   background: #0B0F1A;
   color: white;
   overflow-x: hidden;
-   padding-top: 60px; /* 👈 prevent overlap */
+   padding-top: 80px; /* increased to prevent navbar overlap */
 }
+
+/* ensures anchored scrolls consider the fixed navbar */
+html { scroll-padding-top: 92px; }
 
 /* 🎬 LANDING */
 .landing {
@@ -30,7 +33,7 @@ body {
   position: absolute;
   inset: 0;
 
-  background: url('images/group.jpg') no-repeat center/cover;
+  background: url('images/group.webp') no-repeat center/cover;
   filter: blur(4px); /* 🔥 blur works here */
 
   transform: scale(1.1); /* prevents edge cut after blur */
@@ -296,7 +299,7 @@ body {
   justify-content: center;
   gap: 30px;
   padding: 15px 0;
-  z-index: 1000;
+  z-index: 10005; /* ensure navbar stays above cards */
 }
 
 #topNav a {
@@ -589,33 +592,182 @@ html {
 }
 
 .students-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  align-items: stretch;
 }
 
+/* ---------- Cinematic Glassmorphism Student Card ---------- */
 .student-card {
-  width: 220px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
-  text-align: center;
-  transition: 0.3s;
-  border: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  min-height: 340px;
+  cursor: pointer;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 12px 40px rgba(2,8,20,0.6), 0 0 30px rgba(0,207,255,0.03) inset;
+  transition: transform 0.45s cubic-bezier(.2,.9,.3,1), box-shadow 0.45s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.student-card:hover {
-  transform: translateY(-8px) scale(1.03);
-  box-shadow: 0 10px 25px rgba(0, 255, 255, 0.2);
+.student-card::before {
+  /* subtle gradient border/glow */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.6), 0 0 28px rgba(0,207,255,0.02) inset;
 }
 
 .student-card img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  border-radius: 10px;
-  display: block;
-  margin-bottom: 10px;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transform-origin: center center;
+  transition: transform 0.7s cubic-bezier(.2,.9,.3,1), filter 0.4s ease;
+  will-change: transform;
+}
+
+/* dark cinematic overlay gradient to improve contrast for text */
+.student-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 52%;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(3,8,15,0.65) 55%, rgba(3,8,15,0.9) 100%);
+  pointer-events: none;
+  transition: background 0.4s ease;
+}
+
+/* Text overlay positioned over the image */
+.student-card h3,
+.student-card h4,
+.student-card p {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  margin: 0;
+  z-index: 3;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+
+.student-card h3 {
+  bottom: 72px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.student-card h4 {
+  bottom: 48px;
+  font-size: 13px;
+  color: #8fbfe6;
+  font-weight: 600;
+}
+
+.student-card p {
+  bottom: 18px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.88);
+  font-style: italic;
+}
+
+.student-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 28px 80px rgba(2,8,20,0.6), 0 0 48px rgba(0,207,255,0.08);
+}
+
+.student-card:hover img {
+  transform: scale(1.06) translateY(-3px);
+  filter: saturate(1.03) brightness(1.02);
+}
+
+@media (max-width: 768px) {
+  /* Make department buttons wrap and stay centered on narrow screens */
+  .dept-nav { top: 64px; padding: 8px; gap: 8px; flex-wrap: wrap; justify-content: center; }
+
+  /* Use a single-column layout so each card occupies most available width (90-100%) */
+  .students-container {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 8px;
+  }
+
+  /* Stack card content: image at top, text flows below (mobile-first)
+     Keep min-height flexible and avoid absolute positioning which caused overlap */
+  .student-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    min-height: auto; /* prefer content-driven height */
+    padding: 0 0 14px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background-clip: padding-box;
+  }
+
+  /* Profile image becomes a regular block with a fixed aspect ratio */
+  .student-card img {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3/4;
+    object-fit: cover; /* preserve face cropping consistently */
+    object-position: center top;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    transition: transform 0.35s ease, filter 0.35s ease;
+    display: block;
+  }
+
+  /* Place name / dept / quote in normal flow beneath the image */
+  .student-card h3,
+  .student-card h4,
+  .student-card p {
+    position: static !important;
+    left: auto; right: auto; bottom: auto;
+    margin: 0 16px;
+    z-index: 3;
+    text-shadow: none; /* improves readability on varied backgrounds */
+    color: inherit;
+  }
+
+  .student-card h3 { margin-top: 14px; font-size: 18px; line-height: 1.15; word-break: break-word; overflow-wrap: break-word; }
+  .student-card h4 { margin-top: 8px; font-size: 14px; color: #8fbfe6; font-weight: 600; }
+  .student-card p  { margin-top: 10px; margin-bottom: 8px; font-size: 14px; line-height: 1.45; font-style: italic; white-space: normal; }
+
+  /* Ensure text wraps and doesn't overflow horizontally */
+  .student-card h3, .student-card h4, .student-card p { overflow-wrap: anywhere; word-break: break-word; }
+
+  /* Remove the dark overlay on mobile so text never sits on top of image */
+  .student-card::after { display: none !important; }
+
+  /* Reduce overlay height so it doesn't block text in mobile stacked layout */
+  .student-card::after { height: 32%; }
+
+  /* Prevent decorative ribbons from causing horizontal overflow on narrow screens */
+  .student-card .creator-ribbon { right: 8px; left: auto; transform: rotate(0deg); top: 10px; padding: 4px 8px; }
+}
+
+/* Extra small screens fine-tuning (320px - 480px) */
+@media (max-width: 480px) {
+  .students-container { padding: 0 10px; gap: 12px; }
+  .student-card h3 { font-size: 17px; }
+  .student-card h4 { font-size: 13px; }
+  .student-card p { font-size: 13px; }
 }
 
 .profile-popup {
@@ -629,7 +781,7 @@ html {
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 10001;
+  z-index: 10050; /* ensure popup sits above the topNav */
   opacity: 0;
   transition: opacity .25s ease;
 }
@@ -649,10 +801,12 @@ html {
 
 .popup-content img {
   width: 100%;
-  max-width: 320px;
-  height: auto;
-  border-radius: 20px;
-  margin-bottom: 20px;
+  max-width: 420px;
+  height: 360px; /* fix tall image area so faces are visible */
+  object-fit: cover;
+  object-position: center top; /* favor top area of image (faces) */
+  border-radius: 16px;
+  margin-bottom: 18px;
 }
 
 /* Popup open/close states */
@@ -674,30 +828,77 @@ html {
 }
 
 .socials {
-  margin-top: 12px;
+  margin-top: 16px;
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
+/* Ensure social links are hidden by default until JavaScript initializes them */
+.socials .social-logo,
+.socials .social-link {
+  display: none;
+}
+
+.social-logo,
 .social-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: rgba(0,207,255,0.06);
+  width: 48px;
+  height: 48px;
+  background: rgba(0,207,255,0.08);
   color: #00CFFF;
-  border-radius: 10px;
+  border-radius: 12px;
   text-decoration: none;
   font-size: 14px;
+  border: 1px solid rgba(0,207,255,0.15);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
 }
 
+.social-logo:hover,
 .social-link:hover {
-  background: rgba(0,207,255,0.16);
+  background: rgba(0,207,255,0.2);
+  border-color: rgba(0,207,255,0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,207,255,0.2);
 }
 
-.social-link svg { display: block; width: 18px; height: 18px; }
+.social-logo:active,
+.social-link:active {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,207,255,0.15);
+}
+
+.social-logo:focus,
+.social-link:focus {
+  outline: 2px solid rgba(0,207,255,0.5);
+  outline-offset: 2px;
+}
+
+.social-logo svg,
+.social-link svg { 
+  display: block; 
+  width: 24px; 
+  height: 24px;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+}
+
+.social-logo:hover svg,
+.social-link:hover svg {
+  transform: scale(1.15);
+}
+
+.social-logo:active svg,
+.social-link:active svg {
+  transform: scale(0.95);
+}
 
 .popup-content .popup-hometown svg { vertical-align: middle; margin-right: 8px; }
 @media (max-width: 600px) {
@@ -784,16 +985,35 @@ html {
 .dept-emotion { margin-top: 8px; color: #ddd; font-style: italic; }
 .dept-divider { height: 2px; background: linear-gradient(90deg, rgba(0,207,255,0.12), rgba(255,255,255,0.03)); margin-top: 12px; border-radius: 2px; box-shadow: 0 6px 24px rgba(0,0,0,0.12); }
 
-.students-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; align-items: stretch; }
+.students-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; align-items: stretch; }
 
+/* ensure the cinematic card rules from earlier apply; re-declare for specificity */
 .student-card {
-  width: 100%; padding: 0; background: rgba(255,255,255,0.035); border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 10px 30px rgba(0,0,0,0.45);
-  display: flex; flex-direction: column; justify-content: flex-start; min-height: 300px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  min-height: 340px;
+  cursor: pointer;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 12px 40px rgba(2,8,20,0.6), 0 0 30px rgba(0,207,255,0.03) inset;
+  transition: transform 0.45s cubic-bezier(.2,.9,.3,1), box-shadow 0.45s ease;
 }
-.student-card img { width: 100%; height: 160px; object-fit: cover; display:block; }
-.student-card h3 { padding: 12px 14px 4px; font-size: 16px; }
-.student-card h4 { padding: 0 14px; font-size: 13px; color: #9fbfdc; margin-top:4px; }
-.student-card p { padding: 8px 14px 16px; color: #cfd9df; font-size: 13px; flex-grow: 1; }
+
+.student-card img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.7s cubic-bezier(.2,.9,.3,1), filter 0.4s ease;
+}
+
+.student-card h3 { position: absolute; left: 18px; right: 18px; bottom: 72px; font-size: 20px; font-weight: 800; color: #fff; margin: 0; z-index:3; }
+.student-card h4 { position: absolute; left: 18px; right: 18px; bottom: 48px; font-size: 13px; color: #8fbfe6; font-weight:600; margin:0; z-index:3; }
+.student-card p  { position: absolute; left: 18px; right: 18px; bottom: 18px; font-size: 13px; color: rgba(255,255,255,0.88); font-style: italic; margin:0; z-index:3; }
 
 /* JS-driven reveal: animations enabled only when JS is present (prevents blank when JS fails) */
 .department .dept-header { opacity: 1; transform: none; }

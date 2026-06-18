@@ -212,23 +212,27 @@
       cursor: pointer;
       border: 1px solid var(--border);
       background: var(--card-bg);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      pointer-events: all;
+      z-index: 1;
 
       /* reveal animation */
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
+      transform: translateY(30px) scale(0.95);
+      transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                  transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                  box-shadow 0.3s ease,
+                  transform 0.3s ease;
     }
 
     .gallery-item.in-view {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
     }
 
     .gallery-item:hover {
-      transform: translateY(-4px) scale(1.01);
+      transform: translateY(-6px) scale(1.03);
       box-shadow: 0 16px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,207,255,0.2);
-      z-index: 2;
+      z-index: 10;
     }
 
     .gallery-item img {
@@ -236,7 +240,8 @@
       display: block;
       border-radius: 12px 12px 0 0;
       object-fit: cover;
-      transition: transform 0.5s ease;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
     }
 
     .gallery-item:hover img {
@@ -457,6 +462,7 @@
       .gallery-grid { columns: 2 120px; column-gap: 8px; }
       .gallery-item { margin-bottom: 8px; }
     }
+
   </style>
 </head>
 
@@ -530,6 +536,11 @@
   <!-- GALLERY RENDERS HERE -->
   <div id="galleryContainer"></div>
 
+  <!-- SHARE THOUGHT BUTTON (replaces old cinematic ending) -->
+  <div style="text-align:center; margin-top:40px;">
+    <button id="shareThoughtBtn" class="filter-btn" style="padding:12px 20px; font-size:15px;">🌟 Share One Last Thought</button>
+  </div>
+
 </div>
 
 <!-- 🖼️ LIGHTBOX -->
@@ -552,7 +563,7 @@
      
      Each item:
      {
-      src:     "images/mediavault/yourphoto.jpg",   ← image path
+      src:     "images/mediavault/yourphoto.webp",   ← image path
        title:   "Trip to Guwahati",             ← caption
        year:    "2nd",                           ← "2nd" | "3rd" | "4th"
        date:    "March 2024",                    ← optional date text
@@ -561,28 +572,90 @@
   ============================================================ */
   const mediaItems = [
     // ── 2nd YEAR ──
-    { src: "images/mediavault/fasthostelbase.jpg",  title: "First Hostel Bash",      year: "2nd", date: "Oct 2023" },
-    { src: "images/mediavault/labdays.jpg",  title: "Lab Days",               year: "2nd", date: "Jan 2024",  tall: true },
-    { src: "images/mediavault/freshersnight.jpg",  title: "Freshers Night",         year: "2nd", date: "Nov 2023" },
-    { src: "images/mediavault/weekendoutgoing.jpg",  title: "Weekend Outing",         year: "2nd", date: "Feb 2024",  tall: true },
-    { src: "images/mediavault/canteengang.jpg",  title: "Canteen Gang",           year: "2nd", date: "Mar 2024" },
-    { src: "images/mediavault/studynight.jpg",  title: "Study Nights",           year: "2nd", date: "Apr 2024" },
+    { src: "images/mediavault/fasthostelbase.webp",  title: "First Hostel Bash",      year: "2nd", date: "Oct 2023" },
+    { src: "images/mediavault/labdays.webp",  title: "Lab Days",               year: "2nd", date: "Jan 2024",  tall: true },
+    { src: "images/mediavault/freshersnight.webp",  title: "Freshers Days",         year: "2nd", date: "Nov 2023" },
+    { src: "images/mediavault/weekendoutgoing.webp",  title: "Weekend Outing",         year: "2nd", date: "Feb 2024",  tall: true },
+    { src: "images/mediavault/canteengang.webp",  title: "Canteen Gang",           year: "2nd", date: "Mar 2024" },
+    { src: "images/mediavault/studynight.webp",  title: "Study Nights",           year: "2nd", date: "Apr 2024" },
+    // ── Additional 15 photos for 2nd YEAR ──
+    { src: "images/mediavault/2ndyear/2nd_01.webp", title: "Road Trip", year: "2nd", date: "Oct 2023" },
+    { src: "images/mediavault/2ndyear/2nd_02.webp", title: "Duo Selfie", year: "2nd", date: "Nov 2023", tall: true },
+    { src: "images/mediavault/2ndyear/2nd_03.webp", title: "Class Madness", year: "2nd", date: "Dec 2023" },
+    { src: "images/mediavault/2ndyear/2nd_04.webp", title: "Lab Day's", year: "2nd", date: "Dec 2023" },
+    { src: "images/mediavault/2ndyear/2nd_05.webp", title: "Late Night", year: "2nd", date: "Jan 2024", tall: true },
+    { src: "images/mediavault/2ndyear/2nd_06.webp", title: "College Fest Prep", year: "2nd", date: "Jan 2024" },
+    //{ src: "images/mediavault/2ndyear/2nd_07.webp", title: "Road Trip", year: "2nd", date: "Feb 2024", tall: true },
+    { src: "images/mediavault/2ndyear/2nd_08.webp", title: "Birthday Surprise", year: "2nd", date: "Feb 2024" },
+    { src: "images/mediavault/2ndyear/2nd_09.webp", title: "Night Out", year: "2nd", date: "Mar 2024" },
+    { src: "images/mediavault/2ndyear/2nd_10.webp", title: "Mess Games", year: "2nd", date: "Mar 2024", tall: true },
+    { src: "images/mediavault/2ndyear/2nd_11.webp", title: "Sunset on Campus", year: "2nd", date: "Mar 2024" },
+    { src: "images/mediavault/2ndyear/2nd_12.webp", title: "Cultural Night", year: "2nd", date: "Apr 2024", tall: true },
+    { src: "images/mediavault/2ndyear/2nd_13.webp", title: "Group", year: "2nd", date: "Apr 2024" },
+    //{ src: "images/mediavault/2ndyear/2nd_14.webp", title: "Farewell Rehearsal", year: "2nd", date: "Apr 2024" },
+    { src: "images/mediavault/2ndyear/2nd_15.webp", title: "Morning Walks", year: "2nd", date: "Apr 2024", tall: true },
 
     // ── 3rd YEAR ──
-    { src: "images/mediavault/saraswatipuja.jpg",  title: "Annual Fest 2024",       year: "3rd", date: "Sep 2024",  tall: true },
-    { src: "images/mediavault/projectsubmissionday.jpg",  title: "Project Submission Day", year: "3rd", date: "Nov 2024" },
-    { src: "images/mediavault/rooftop.jpg",  title: "Rooftop Moments",        year: "3rd", date: "Dec 2024",  tall: true },
-    { src: "images/mediavault/sportsday.jpg",  title: "Sports Day",             year: "3rd", date: "Jan 2025" },
-    { src: "images/mediavault/chaosandlaughter.jpg",  title: "Chaos & Laughter",       year: "3rd", date: "Feb 2025" },
-    { src: "images/mediavault/librarysquad.jpg",  title: "Library Squad",          year: "3rd", date: "Mar 2025",  tall: true },
+    { src: "images/mediavault/saraswatipuja.webp",  title: "Saraswati Puja 2024",       year: "3rd", date: "Sep 2024",  tall: true },
+    { src: "images/mediavault/projectsubmissionday.webp",  title: "Project Submission Day", year: "3rd", date: "Nov 2024" },
+    { src: "images/mediavault/rooftop.webp",  title: "Balcony Moments",        year: "3rd", date: "Dec 2024",  tall: true },
+    { src: "images/mediavault/sportsday.webp",  title: "Its Gym Time",             year: "3rd", date: "Jan 2025" },
+    { src: "images/mediavault/chaosandlaughter.webp",  title: "Chaos & Laughter",       year: "3rd", date: "Feb 2025" },
+    { src: "images/mediavault/librarysquad.webp",  title: "Movie Time",          year: "3rd", date: "Mar 2025",  tall: true },
+    // ── Additional 20 photos for 3rd YEAR ──
+    { src: "images/mediavault/3rdyear/3rd_01.webp", title: "Happy Hearts", year: "3rd", date: "Sep 2024" },
+    { src: "images/mediavault/3rdyear/3rd_03.webp", title: "Unforgettable Trip", year: "3rd", date: "Oct 2024" },
+    { src: "images/mediavault/3rdyear/3rd_02.webp", title: "Gym Night", year: "3rd", date: "Oct 2024", tall: true },
+    { src: "images/mediavault/3rdyear/3rd_04.webp", title: "Girl's Meetup", year: "3rd", date: "Nov 2024" },
+    { src: "images/mediavault/3rdyear/3rd_05.webp", title: "Chlling", year: "3rd", date: "Nov 2024", tall: true },
+    { src: "images/mediavault/3rdyear/3rd_06.webp", title: "Study Break", year: "3rd", date: "Dec 2024" },
+    { src: "images/mediavault/3rdyear/3rd_07.webp", title: "Boy's Trip", year: "3rd", date: "Dec 2024", tall: true },
+    { src: "images/mediavault/3rdyear/3rd_08.webp", title: "Creating Memories Together", year: "3rd", date: "Jan 2025" },
+    { src: "images/mediavault/3rdyear/3rd_09.webp", title: "Group Presentation", year: "3rd", date: "Jan 2025" },
+    { src: "images/mediavault/3rdyear/3rd_10.webp", title: "Late Night Preparations", year: "3rd", date: "Feb 2025", tall: true },
+    { src: "images/mediavault/3rdyear/3rd_11.webp", title: "Get Ready", year: "3rd", date: "Feb 2025" },
+    { src: "images/mediavault/3rdyear/3rd_12.webp", title: "Cultural Night", year: "3rd", date: "Mar 2025", tall: true },
+    { src: "images/mediavault/3rdyear/3rd_13.webp", title: "Internship Session", year: "3rd", date: "Mar 2025" },
+    { src: "images/mediavault/3rdyear/3rd_14.webp", title: "Girl Gang", year: "3rd", date: "Mar 2025" },
+    { src: "images/mediavault/3rdyear/3rd_15.webp", title: "A Picture Full of Happiness", year: "3rd", date: "Apr 2025", tall: true },
+    { src: "images/mediavault/3rdyear/3rd_16.webp", title: "Friendship Goals", year: "3rd", date: "Apr 2025" },
+    { src: "images/mediavault/3rdyear/3rd_17.webp", title: "Random Day's", year: "3rd", date: "Apr 2025" },
+    { src: "images/mediavault/3rdyear/3rd_18.webp", title: "Traavelling", year: "3rd", date: "Apr 2025", tall: true },
+    { src: "images/mediavault/3rdyear/3rd_19.webp", title: "Class Selfie", year: "3rd", date: "May 2025" },
+    { src: "images/mediavault/3rdyear/3rd_20.webp", title: "One Step Closer", year: "3rd", date: "May 2025", tall: true },
 
     // ── 4th YEAR ──
-    { src: "images/mediavault/finalyearbegins.jpg",  title: "Final Year Begins",      year: "4th", date: "Aug 2025",  tall: true },
-    { src: "images/mediavault/placementseason.jpg",  title: "Placement Season",       year: "4th", date: "Oct 2025" },
-    { src: "images/mediavault/lunch.jpeg",  title: "Last Farewell Lunch",    year: "4th", date: "Mar 2026",  tall: true },
-    { src: "images/mediavault/convocationday.jpg",  title: "Convocation Day",        year: "4th", date: "Apr 2026" },
-    { src: "images/mediavault/goodbye.jpg",  title: "Goodbye, Home",          year: "4th", date: "Apr 2026" },
-    { src: "images/mediavault/endless.jpg",  title: "EndlessUs Forever",      year: "4th", date: "May 2026",  tall: true },
+    { src: "images/mediavault/finalyearbegins.webp",  title: "Final Year Begins",      year: "4th", date: "Aug 2025",  tall: true },
+    { src: "images/mediavault/placementseason.webp",  title: "Placement Season",       year: "4th", date: "Oct 2025" },
+    { src: "images/mediavault/lunch.webp",  title: "Last Dinner",    year: "4th", date: "Mar 2026",  tall: true },
+   // { src: "images/mediavault/convocationday.webp",  title: "Convocation Day",        year: "4th", date: "Apr 2026" },
+    { src: "images/mediavault/goodbye.webp",  title: "Goodbye Class",          year: "4th", date: "Apr 2026" },
+    { src: "images/mediavault/endless.webp",  title: "Last Click",      year: "4th", date: "May 2026",  tall: true },
+    // ── Additional 24 photos for 4th YEAR ──
+    { src: "images/mediavault/4thyear/4th_01.webp", title: "Birthday Party", year: "4th", date: "May 2026" },
+    { src: "images/mediavault/4thyear/4th_02.webp", title: "With Snow", year: "4th", date: "May 2026", tall: true },
+    { src: "images/mediavault/4thyear/4th_03.webp", title: "Final Presentation Day", year: "4th", date: "May 2026" },
+    { src: "images/mediavault/4thyear/4th_04.webp", title: "Night Farewell", year: "4th", date: "May 2026", tall: true },
+    { src: "images/mediavault/4thyear/4th_05.webp", title: "Birthday Boy", year: "4th", date: "Apr 2026" },
+    { src: "images/mediavault/4thyear/4th_06.webp", title: "Full Group", year: "4th", date: "Apr 2026" },
+    { src: "images/mediavault/4thyear/4th_07.webp", title: "Presentation Day", year: "4th", date: "Mar 2026", tall: true },
+    { src: "images/mediavault/4thyear/4th_08.webp", title: "Smiles", year: "4th", date: "Mar 2026" },
+    { src: "images/mediavault/4thyear/4th_09.webp", title: "Brother's", year: "4th", date: "Apr 2026", tall: true },
+    { src: "images/mediavault/4thyear/4th_10.webp", title: "Random Selfie", year: "4th", date: "Apr 2026" },
+    { src: "images/mediavault/4thyear/4th_11.webp", title: "Us", year: "4th", date: "Apr 2026" },
+    { src: "images/mediavault/4thyear/4th_12.webp", title: "SJ Hostel", year: "4th", date: "May 2026", tall: true },
+    { src: "images/mediavault/4thyear/4th_13.webp", title: "Night Shelfie", year: "4th", date: "Mar 2026" },
+    { src: "images/mediavault/4thyear/4th_14.webp", title: "Presentation Day", year: "4th", date: "May 2026", tall: true },
+    { src: "images/mediavault/4thyear/4th_15.webp", title: "Among US", year: "4th", date: "Feb 2026" },
+    { src: "images/mediavault/4thyear/4th_16.webp", title: "Group Photo", year: "4th", date: "May 2026" },
+    { src: "images/mediavault/4thyear/4th_17.webp", title: "Presentation Day", year: "4th", date: "Apr 2026", tall: true },
+    { src: "images/mediavault/4thyear/4th_18.webp", title: "Night Smile", year: "4th", date: "Apr 2026" },
+    { src: "images/mediavault/4thyear/4th_19.webp", title: "selfie", year: "4th", date: "May 2026" },
+    { src: "images/mediavault/4thyear/4th_20.webp", title: "Good Bye", year: "4th", date: "May 2026", tall: true },
+    { src: "images/mediavault/4thyear/4th_21.webp", title: "Goodbye Circle", year: "4th", date: "May 2026" },
+    { src: "images/mediavault/4thyear/4th_22.webp", title: "Ecstasy Night", year: "4th", date: "May 2026" },
+    { src: "images/mediavault/4thyear/4th_23.webp", title: "Final Night", year: "4th", date: "May 2026", tall: true },
+    { src: "images/mediavault/4thyear/4th_24.webp", title: "Last Class", year: "4th", date: "May 2026", tall: true },
   ];
 
   /* ── Year labels ── */
@@ -674,12 +747,10 @@
       empty.classList.remove("visible");
     }
 
-    // Reveal animation
-    setTimeout(() => {
-      document.querySelectorAll(".gallery-item").forEach((el, i) => {
-        setTimeout(() => el.classList.add("in-view"), i * 40);
-      });
-    }, 50);
+    // Reveal animation - smooth staggered appearance
+    document.querySelectorAll(".gallery-item").forEach((el, i) => {
+      setTimeout(() => el.classList.add("in-view"), i * 60);
+    });
 
     updateCounts();
   }
@@ -687,11 +758,19 @@
   /* ── Counts ── */
   function updateCounts() {
     const total = mediaItems.length;
-    document.getElementById("totalCount").textContent = total;
-    document.getElementById("yearCount").textContent =
-      activeFilter === "all" ? total : mediaItems.filter(m => m.year === activeFilter).length;
+    const totalEl = document.getElementById("totalCount");
+    if (totalEl) totalEl.textContent = total;
 
-    document.getElementById("cnt-all").textContent = total;
+    const yearEl = document.getElementById("yearCount");
+    if (yearEl) {
+      yearEl.textContent = activeFilter === "all"
+        ? total
+        : mediaItems.filter(m => m.year === activeFilter).length;
+    }
+
+    const cntAllEl = document.getElementById("cnt-all");
+    if (cntAllEl) cntAllEl.textContent = total;
+
     ["2nd","3rd","4th"].forEach(yr => {
       const el = document.getElementById(`cnt-${yr}`);
       if (el) el.textContent = mediaItems.filter(m => m.year === yr).length;
@@ -699,20 +778,35 @@
   }
 
   /* ── Filter buttons ── */
-  document.querySelectorAll(".filter-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      activeFilter = btn.dataset.filter;
-      buildGallery(activeFilter);
-    });
-  });
+  // Robust filter handling: delegate clicks from the filter bar
+  // Use an idempotent initializer to avoid duplicate listeners after PJAX swaps
+  if (!window.__mediavaultFilterInit) {
+    const filterBar = document.querySelector('.filter-bar');
+    if (filterBar) {
+      filterBar.addEventListener('click', (e) => {
+        const btn = e.target.closest('.filter-btn');
+        if (!btn) return;
+        // only handle buttons that explicitly carry a data-filter attr
+        const filter = btn.dataset && btn.dataset.filter;
+        if (!filter) return;
+
+        // update active state only within the filterBar
+        filterBar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        activeFilter = filter;
+        buildGallery(activeFilter);
+      });
+    }
+    window.__mediavaultFilterInit = true;
+  }
 
   /* ── Lightbox ── */
   function openLightbox(index) {
     currentLbIndex = index;
     renderLightbox();
-    document.getElementById("vaultLightbox").classList.add("open");
+    const vb = document.getElementById("vaultLightbox");
+    if (vb) vb.classList.add("open");
     document.body.style.overflow = "hidden";
   }
 
@@ -720,36 +814,53 @@
     const item = visibleItems[currentLbIndex];
     if (!item) return;
     const img = document.getElementById("lbImg");
-    img.src = item.src;
-    img.onerror = () => { img.src = PLACEHOLDER; };
-    document.getElementById("lbTitle").textContent = item.title;
-    document.getElementById("lbMeta").textContent = `${item.date || ""} · ${item.year} Year`;
+    if (img) {
+      img.src = item.src;
+      img.onerror = () => { img.src = PLACEHOLDER; };
+    }
+    const titleEl = document.getElementById("lbTitle");
+    if (titleEl) titleEl.textContent = item.title;
+    const metaEl = document.getElementById("lbMeta");
+    if (metaEl) metaEl.textContent = `${item.date || ""} · ${item.year} Year`;
   }
 
   function closeLightbox() {
-    document.getElementById("vaultLightbox").classList.remove("open");
+    const vb = document.getElementById("vaultLightbox");
+    if (vb) vb.classList.remove("open");
     document.body.style.overflow = "";
   }
 
-  document.getElementById("lbClose").addEventListener("click", closeLightbox);
-  document.getElementById("vaultLightbox").addEventListener("click", (e) => {
-    if (e.target === document.getElementById("vaultLightbox")) closeLightbox();
-  });
+  const lbCloseEl = document.getElementById("lbClose");
+  if (lbCloseEl) lbCloseEl.addEventListener("click", closeLightbox);
 
-  document.getElementById("lbPrev").addEventListener("click", (e) => {
-    e.stopPropagation();
-    currentLbIndex = (currentLbIndex - 1 + visibleItems.length) % visibleItems.length;
-    renderLightbox();
-  });
+  const vaultLightboxEl = document.getElementById("vaultLightbox");
+  if (vaultLightboxEl) {
+    vaultLightboxEl.addEventListener("click", (e) => {
+      if (e.target === vaultLightboxEl) closeLightbox();
+    });
+  }
 
-  document.getElementById("lbNext").addEventListener("click", (e) => {
-    e.stopPropagation();
-    currentLbIndex = (currentLbIndex + 1) % visibleItems.length;
-    renderLightbox();
-  });
+  const lbPrevEl = document.getElementById("lbPrev");
+  if (lbPrevEl) {
+    lbPrevEl.addEventListener("click", (e) => {
+      e.stopPropagation();
+      currentLbIndex = (currentLbIndex - 1 + visibleItems.length) % visibleItems.length;
+      renderLightbox();
+    });
+  }
+
+  const lbNextEl = document.getElementById("lbNext");
+  if (lbNextEl) {
+    lbNextEl.addEventListener("click", (e) => {
+      e.stopPropagation();
+      currentLbIndex = (currentLbIndex + 1) % visibleItems.length;
+      renderLightbox();
+    });
+  }
 
   document.addEventListener("keydown", (e) => {
-    if (!document.getElementById("vaultLightbox").classList.contains("open")) return;
+    const vb = document.getElementById("vaultLightbox");
+    if (!vb || !vb.classList.contains("open")) return;
     if (e.key === "Escape") closeLightbox();
     if (e.key === "ArrowLeft") { currentLbIndex = (currentLbIndex - 1 + visibleItems.length) % visibleItems.length; renderLightbox(); }
     if (e.key === "ArrowRight") { currentLbIndex = (currentLbIndex + 1) % visibleItems.length; renderLightbox(); }
@@ -757,6 +868,40 @@
 
   /* ── Init ── */
   buildGallery("all");
+
+  /* ── Share Thought Button ── */
+  // Use pageshow event to properly handle BFCache (browser back/forward cache)
+  // This ensures the button works after navigation and browser back/forward
+  function attachShareButton() {
+    const shareBtn = document.getElementById('shareThoughtBtn');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Trigger the same navigation method the top nav uses so any
+        // global SPA/PJAX handlers run the same way. Prefer clicking the
+        // existing top-nav anchor for `wall.html`; fallback to setting
+        // `location.href` if the anchor isn't present.
+        const topNav = document.getElementById('topNav');
+        const wallLink = (topNav && topNav.querySelector('a[href$="wall.html"]')) || document.querySelector('a[href$="wall.html"]');
+        if (wallLink) {
+          wallLink.click();
+        } else {
+          window.location.href = 'wall.html';
+        }
+      });
+    }
+  }
+  
+  // Attach on initial load
+  attachShareButton();
+  
+  // Re-attach after BFCache restoration (when page becomes visible)
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      // Page was restored from BFCache
+      attachShareButton();
+    }
+  });
 
   /* ── Nav active style ── */
   const style = document.createElement("style");
@@ -766,15 +911,27 @@
 
 <script>
   (function(){
-    const nav = document.getElementById('topNav');
-    if (!nav) return;
-    const links = nav.querySelectorAll('a');
-    const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    links.forEach(a => {
-      try {
-        const linkPath = (new URL(a.getAttribute('href'), location.href).pathname.split('/').pop() || 'index.html').toLowerCase();
-        a.classList.toggle('nav-active', linkPath === current);
-      } catch (e) {}
+    function updateNav() {
+      const nav = document.getElementById('topNav');
+      if (!nav) return;
+      const links = nav.querySelectorAll('a');
+      const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+      links.forEach(a => {
+        try {
+          const linkPath = (new URL(a.getAttribute('href'), location.href).pathname.split('/').pop() || 'index.html').toLowerCase();
+          a.classList.toggle('nav-active', linkPath === current);
+        } catch (e) {}
+      });
+    }
+    
+    // Update on initial load
+    updateNav();
+    
+    // Update after BFCache restoration
+    window.addEventListener('pageshow', (e) => {
+      if (e.persisted) {
+        updateNav();
+      }
     });
   })();
 </script>
