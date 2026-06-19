@@ -45,7 +45,7 @@ const students = [
 { name: "Viban Van Narzary", nickname: "Viban", dept: "CV", hometown: "", img: "images/viban.webp", quote: "Building the future, brick by brick", socials: { facebook: "#", instagram: "#", linkedin: "#" } }
 ,
 // Appended ECE students (kept at array end so existing card indices remain unchanged)
-{ name: "Chris Basumatary", nickname: "Chris-topher", dept: "ECE", hometown: "Gossaigaon, Kokrajhar", img: "images/yearbook/chris.webp", quote: "Turning signals into possibilities.", socials: { facebook: "Chris chan ", instagram: "@chris_chann_", linkedin: "Chris Basumatary " } },
+{ name: "Chris Basumatary", nickname: "Chris-topher", dept: "ECE", hometown: "Gossaigaon, Kokrajhar", img: "images/yearbook/Chris.webp", quote: "Turning signals into possibilities.", socials: { facebook: "Chris chan ", instagram: "@chris_chann_", linkedin: "Chris Basumatary " } },
 
 { name: "Annesha Singha", nickname: "Panda😂", dept: "ECE", hometown: "Diphu", img: "images/yearbook/ANNESHA SINGHA 2.02E+11.webp", quote: "Where circuits connect, friendships last.", socials: { facebook: "Annesha Singha", instagram: "_annesha_singha_", linkedin: "https://www.linkedin.com/in/annesha-singha-351818330" } }
 ,
