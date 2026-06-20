@@ -1,4 +1,3 @@
-console.log("Firebase key exists:", require('fs').existsSync('./endlessus-8e245-firebase-adminsdk-fbsvc-e07dccacbe.json'));
 const { initializeApp, cert } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
 const express = require('express');
@@ -8,7 +7,7 @@ const http = require('http');
 const WebSocket = require('ws');
 
 const PORT = process.env.PORT || 5500;
-const serviceAccount = require('./endlessus-8e245-firebase-adminsdk-fbsvc-e07dccacbe.json');
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
 initializeApp({
   credential: cert(serviceAccount)
