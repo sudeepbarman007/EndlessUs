@@ -57,6 +57,25 @@ async function readNotes() {
   }
 }
 
+async function writeNotes(notes) {
+  try {
+    const batch = db.batch();
+
+    const existing = await notesCollection.get();
+    existing.forEach(doc => batch.delete(doc.ref));
+
+    notes.forEach(note => {
+      const ref = notesCollection.doc(String(note.id));
+      batch.set(ref, note);
+    });
+
+    await batch.commit();
+    return true;
+  } catch (e) {
+    console.error('writeNotes error', e);
+    return false;
+  }
+}
 
 // GET all notes
 app.get('/api/notes', async (req, res) => {
@@ -71,50 +90,52 @@ app.post('/api/notes', async (req, res) => {
   if (!note || !note.id || !note.msg) {
     return res.status(400).json({ error: 'Invalid note' });
   }
-  try {
-    await notesCollection.doc(String(note.id)).set(note);
-    const notes = await readNotes();
-    broadcast({ type: 'update', notes });
-    res.json(notes);
-  } catch (e) {
-    console.error('POST /api/notes error', e);
-    res.status(500).json({ error: 'Write failed' });
+
+  const notes = await readNotes();
+  notes.push(note);
+
+  const ok = await writeNotes(notes);
+
+  if (!ok) {
+    return res.status(500).json({ error: 'Write failed' });
   }
+
+  broadcast({ type: 'update', notes });
+  res.json(notes);
 });
 
 // DELETE a note by id (requires owner in body)
 app.delete('/api/notes/:id', async (req, res) => {
-  const id = String(req.params.id);
+  const id = Number(req.params.id);
   const owner = req.body && req.body.owner;
 
   if (!id) {
     return res.status(400).json({ error: 'Invalid id' });
   }
 
-  try {
-    const docRef = notesCollection.doc(id);
-    const doc = await docRef.get();
+  const notes = await readNotes();
 
-    if (!doc.exists) {
-      return res.status(404).json({ error: 'Not found' });
-    }
+  const target = notes.find(n => n.id === id);
 
-    const target = doc.data();
-
-    if (!owner || target.owner !== owner) {
-      return res.status(403).json({ error: 'Not allowed' });
-    }
-
-    await docRef.delete();
-
-    const notes = await readNotes();
-    broadcast({ type: 'update', notes });
-
-    res.json(notes);
-  } catch (e) {
-    console.error('DELETE /api/notes/:id error', e);
-    res.status(500).json({ error: 'Delete failed' });
+  if (!target) {
+    return res.status(404).json({ error: 'Not found' });
   }
+
+  if (!owner || target.owner !== owner) {
+    return res.status(403).json({ error: 'Not allowed' });
+  }
+
+  const out = notes.filter(n => n.id !== id);
+
+  const ok = await writeNotes(out);
+
+  if (!ok) {
+    return res.status(500).json({ error: 'Write failed' });
+  }
+
+  broadcast({ type: 'update', notes: out });
+
+  res.json(out);
 });
 
 
