@@ -1,12 +1,20 @@
+const { initializeApp, cert } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
 const express = require('express');
-const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 const http = require('http');
 const WebSocket = require('ws');
 
-const DATA_FILE = path.join(__dirname, 'notes.json');
 const PORT = process.env.PORT || 5500;
+const serviceAccount = require('./endlessus-8e245-firebase-adminsdk-fbsvc-e07dccacbe.json');
+
+initializeApp({
+  credential: cert(serviceAccount)
+});
+
+const db = getFirestore();
+const notesCollection = db.collection('notes');
 
 const app = express();
 app.use(cors());
@@ -28,31 +36,40 @@ function broadcast(msg) {
   });
 }
 
-wss.on('connection', (ws) => {
-  // send current notes snapshot immediately
+wss.on('connection', async (ws) => {
   try {
-    ws.send(JSON.stringify({ type: 'update', notes: readNotes() }));
-  } catch (e) {}
+    const notes = await readNotes();
+    ws.send(JSON.stringify({ type: 'update', notes }));
+  } catch (e) {
+    console.error(e);
+  }
 
-  ws.on('message', (msg) => {
-    // no-op for now; reserved for future (pings/commands)
-  });
+  ws.on('message', () => {});
 });
 
-function readNotes() {
+async function readNotes() {
   try {
-    if (!fs.existsSync(DATA_FILE)) return [];
-    const s = fs.readFileSync(DATA_FILE, 'utf8');
-    return JSON.parse(s || '[]');
+    const snapshot = await notesCollection.orderBy('ts', 'asc').get();
+    return snapshot.docs.map(doc => doc.data());
   } catch (e) {
     console.error('readNotes error', e);
     return [];
   }
 }
 
-function writeNotes(notes) {
+async function writeNotes(notes) {
   try {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(notes, null, 2), 'utf8');
+    const batch = db.batch();
+
+    const existing = await notesCollection.get();
+    existing.forEach(doc => batch.delete(doc.ref));
+
+    notes.forEach(note => {
+      const ref = notesCollection.doc(String(note.id));
+      batch.set(ref, note);
+    });
+
+    await batch.commit();
     return true;
   } catch (e) {
     console.error('writeNotes error', e);
@@ -61,40 +78,66 @@ function writeNotes(notes) {
 }
 
 // GET all notes
-app.get('/api/notes', (req, res) => {
-  const notes = readNotes();
+app.get('/api/notes', async (req, res) => {
+  const notes = await readNotes();
   res.json(notes);
 });
 
 // POST a new note (body: note object)
-app.post('/api/notes', (req, res) => {
+app.post('/api/notes', async (req, res) => {
   const note = req.body;
-  if (!note || !note.id || !note.msg) return res.status(400).json({ error: 'Invalid note' });
-  const notes = readNotes();
+
+  if (!note || !note.id || !note.msg) {
+    return res.status(400).json({ error: 'Invalid note' });
+  }
+
+  const notes = await readNotes();
   notes.push(note);
-  // keep last 200
-  const out = notes.length > 200 ? notes.slice(-200) : notes;
-  if (!writeNotes(out)) return res.status(500).json({ error: 'Write failed' });
-  // broadcast updated list to connected clients
-  broadcast({ type: 'update', notes: out });
-  res.json(out);
+
+  const ok = await writeNotes(notes);
+
+  if (!ok) {
+    return res.status(500).json({ error: 'Write failed' });
+  }
+
+  broadcast({ type: 'update', notes });
+  res.json(notes);
 });
 
 // DELETE a note by id (requires owner in body)
-app.delete('/api/notes/:id', (req, res) => {
+app.delete('/api/notes/:id', async (req, res) => {
   const id = Number(req.params.id);
   const owner = req.body && req.body.owner;
-  if (!id) return res.status(400).json({ error: 'Invalid id' });
-  const notes = readNotes();
+
+  if (!id) {
+    return res.status(400).json({ error: 'Invalid id' });
+  }
+
+  const notes = await readNotes();
+
   const target = notes.find(n => n.id === id);
-  if (!target) return res.status(404).json({ error: 'Not found' });
-  if (!owner || target.owner !== owner) return res.status(403).json({ error: 'Not allowed' });
+
+  if (!target) {
+    return res.status(404).json({ error: 'Not found' });
+  }
+
+  if (!owner || target.owner !== owner) {
+    return res.status(403).json({ error: 'Not allowed' });
+  }
+
   const out = notes.filter(n => n.id !== id);
-  if (!writeNotes(out)) return res.status(500).json({ error: 'Write failed' });
-  // broadcast updated list to connected clients
+
+  const ok = await writeNotes(out);
+
+  if (!ok) {
+    return res.status(500).json({ error: 'Write failed' });
+  }
+
   broadcast({ type: 'update', notes: out });
+
   res.json(out);
 });
+
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
