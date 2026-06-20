@@ -1,3 +1,4 @@
+console.log("Firebase key exists:", require('fs').existsSync('./endlessus-8e245-firebase-adminsdk-fbsvc-e07dccacbe.json'));
 const { initializeApp, cert } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
 const express = require('express');
